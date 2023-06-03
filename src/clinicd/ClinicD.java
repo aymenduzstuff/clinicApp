@@ -12,7 +12,7 @@ public class ClinicD {
 
   
     public static void main(String[] args) {
-        DBconnection dBConnection = new DBconnection("jdbc:mysql://localhost:3306/clinicdatabase" ,"aymen" , "aymenhhh");
+        DBconnection dBConnection = new DBconnection("jdbc:mysql://localhost:3306/clinicdatabase" ,"clinicdatabase" , "aymenhhh");
         //login adminLogin = new login(dBConnection);
         //adminLogin.setVisible(true);
         

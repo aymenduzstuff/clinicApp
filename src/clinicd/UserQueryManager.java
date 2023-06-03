@@ -528,7 +528,7 @@ void deleteClient(DBconnection dBConnection ,int id) throws SQLException {
         
         Connection con =  dbc.getConnection() ;
         String[] result = null;
-        String mysql_query = "select * from seances where id_consultation='"+code+"'  ";
+        String mysql_query = "select nbr_seance , temps, IFNULL(notes, '') , montant , notes ,  username from seances join clinicdatabase.admins on seances.admin_id = admins.id  where id_consultation='"+code+"'  ";
         try {
                 Statement st = con.createStatement();
                 ResultSet rs = st.executeQuery(mysql_query);
@@ -548,7 +548,7 @@ void deleteClient(DBconnection dBConnection ,int id) throws SQLException {
                 while(rs.next() && i<k) {
                     numberOfUsers++;
                     //result[i] = rs.getString("visit_id")+":::"+rs.getString("time")+":::"+rs.getString("Operation_id")+":::"+rs.getString("tooth")+":::"+rs.getString("seance_nbr")+":::"+rs.getString("prix")+":::"+rs.getString("terminee");
-                    result[i] = rs.getString("nbr_seance")+":::"+rs.getString("temps")+":::mazal maderthomch:::"+rs.getString("montant")+":::"+rs.getString("admin_id");
+                    result[i] = rs.getString("nbr_seance")+":::"+rs.getString("temps")+":::"+rs.getString("notes")+":::"+rs.getString("montant")+":::"+rs.getString("username");
                     
                     System.out.println("\n");
                     System.out.println("content : "+result[i]);

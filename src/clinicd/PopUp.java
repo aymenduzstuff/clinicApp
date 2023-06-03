@@ -29,7 +29,9 @@ public class PopUp extends javax.swing.JFrame {
     
     UserQueryManager UQM = new UserQueryManager();
     uiController UIC = new uiController();
-     Client modClient = new Client();
+    
+    
+    Client modClient = new Client();
     /**
      * Creates new form PopUp
      */
@@ -479,7 +481,7 @@ public class PopUp extends javax.swing.JFrame {
                 .addGroup(newClientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(clientAdressField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
+                .addGap(39, 39, 39)
                 .addGroup(newClientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(clientBD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -494,7 +496,7 @@ public class PopUp extends javax.swing.JFrame {
                     .addGroup(newClientPanelLayout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(modClientBtn)
                 .addGap(18, 18, 18)
                 .addGroup(newClientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
