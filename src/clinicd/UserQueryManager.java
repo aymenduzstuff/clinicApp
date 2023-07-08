@@ -12,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import java.time.format.DateTimeFormatter;
 import static java.time.temporal.TemporalQueries.localDate;
+import java.util.Arrays;
 import javax.swing.JDialog;
 import javax.swing.Timer;
 
@@ -107,16 +108,24 @@ public class UserQueryManager {
         return "no result" ;
 }
 
-    void insertAdmin(DBconnection dBConnection ,String username, String password) throws SQLException {
+    void insertAdmin(DBconnection dBConnection, String username, String password, int adminsRight, int actsRight, int patientsright, int visitsright, int voirapercusright) throws SQLException {
         Connection con =  dBConnection.getConnection() ;
-        String sql = "insert into admins(username , password) values(?,?)"; 
+        String sql = "insert into admins(username , password ,gestionadminsright , gestionactsright , gestionpatientsright , gestionvisitsright , voirapercuright ) values(?,? , ? ,? , ? , ?, ?)"; 
         PreparedStatement ptst = con.prepareStatement(sql);
         
         ptst.setString(1 , username);
         ptst.setString(2 , password);
+        ptst.setInt(3 , adminsRight);
+        ptst.setInt(4, actsRight);
+        ptst.setInt(5 , patientsright);
+        ptst.setInt(6, visitsright);
+        ptst.setInt(7, voirapercusright);
+        
+        
+        
         ptst.executeUpdate();
         
-        JOptionPane.showMessageDialog(null, "new admin addes");
+        JOptionPane.showMessageDialog(null, "new admin added");
         con.close();
     }
 
@@ -127,7 +136,7 @@ public class UserQueryManager {
         String dateString = date.format(formatter) ;
         
         Connection con =  dBConnection.getConnection() ;
-        String sql = "INSERT INTO clinicdatabase.clients ( nom, prenom, adresse, num_tel, date_naiss , notes) VALUES (?, ?, ?, ?, ? , ?) " ;
+        String sql = "INSERT INTO clinicdatabase.clients ( nom, prenom, adresse, num_tel, date_naiss , notes , registration_date) VALUES (?, ?, ?, ?, ? , ? , CURRENT_DATE()) " ;
         PreparedStatement ptst = con.prepareStatement(sql);
         ptst.setString(1 , nom);
         ptst.setString(2 , prenom);
@@ -152,6 +161,15 @@ void deleteClient(DBconnection dBConnection ,int id) throws SQLException {
         JOptionPane.showMessageDialog(null, "client Deleted ");
         con.close();
     }
+void deleteAdmin(DBconnection dBConnection ,int id) throws SQLException {
+        Connection con =  dBConnection.getConnection() ;
+        String sql = "DELETE FROM admins WHERE id = "+id+""; 
+        PreparedStatement ptst = con.prepareStatement(sql);
+        
+        ptst.executeUpdate();
+        JOptionPane.showMessageDialog(null, "client Deleted ");
+        con.close();
+    }
     void insertVisit(DBconnection dbc, String time, String client_id, String operation_id, String admin_id, String prix, String termine, int[] dents , String note ) throws SQLException {
         
         
@@ -159,33 +177,49 @@ void deleteClient(DBconnection dBConnection ,int id) throws SQLException {
         
         Connection con =  dbc.getConnection() ;
 
-        String sql = "INSERT INTO clinicdatabase.consultations ( client_id , act_dentaire  , termine, cout) VALUES (?, ?,  ?, 5000)" ;
-        PreparedStatement ptst = con.prepareStatement(sql);
+        String sql = "INSERT INTO clinicdatabase.consultations ( client_id , act_dentaire  , termine) VALUES (?, ?,  ?)" ;
+        PreparedStatement ptst = con.prepareStatement(sql , Statement.RETURN_GENERATED_KEYS);
         
         ptst.setString(1 ,client_id );
         ptst.setString(2 ,operation_id );
         ptst.setString(3 ,termine );
         
-        ptst.executeUpdate();
+            
         
-        String sql2 = "INSERT INTO clinicdatabase.seances ( id_consultation , nbr_seance , temps , admin_id , montant , notes) VALUES (LAST_INSERT_ID(), 1, ?,  ?, ? , ?)" ;
+        int affectedRows = ptst.executeUpdate();
+        int lastInsertID = 0 ;
+        if (affectedRows > 0) {
+                ResultSet generatedKeys = ptst.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    lastInsertID = generatedKeys.getInt(1);
+                    
+                }
+        }
+        System.out.println("inserted consultation");
+        String sql2 = "INSERT INTO clinicdatabase.seances ( id_consultation , nbr_seance , temps , admin_id , montant , notes) VALUES (?, 1, ?,  ?, ? , ?)" ;
         PreparedStatement ptst2 = con.prepareStatement(sql2);
         
-        ptst2.setString(1 ,time );
-        ptst2.setString(2 ,admin_id );
-        ptst2.setString(3 ,prix );
-        ptst2.setString(4 ,note );
-        
+        ptst2.setString(1 , String.valueOf(lastInsertID));
+        ptst2.setString(2 ,time );
+        ptst2.setString(3 ,admin_id );
+        ptst2.setString(4 ,prix );
+        ptst2.setString(5 ,note );
+        System.out.println("inserted seances ");
         
         ptst2.executeUpdate();
         
+        
+        
+        
         for(int i = 0 ; i < dents.length ; i++){
-            String sql3 = "insert into dents_for_consultation values(LAST_INSERT_ID() , ?) ;" ;
+            String sql3 = "insert into dents_for_consultation values(? , ?) ;" ;
             PreparedStatement ptst3 = con.prepareStatement(sql3);
             System.out.println("dent a ajouter : " + dents[i]);
-            ptst3.setInt(1, dents[i]);
+            ptst3.setInt(1, lastInsertID);
+            ptst3.setInt(2 , dents[i]);
             ptst3.executeUpdate();
         }
+        System.out.println("insert dents ");
         
         
         System.out.println("new visit added !");
@@ -278,6 +312,49 @@ void deleteClient(DBconnection dBConnection ,int id) throws SQLException {
             }
         return result;
     }
+    
+    String[] getApercusResults(DBconnection dbc) throws SQLException {
+        
+        Connection con =  dbc.getConnection() ;
+        String[] result = new String[7];
+        String client_nbr = "SELECT COUNT(id) AS result FROM clients ";
+        String operation_nbr = "SELECT count(distinct id_consultation) AS result FROM clinicdatabase.seances ";
+        
+        String clients_this_month = "SELECT COUNT(*) AS result FROM clients WHERE MONTH(registration_date) = MONTH(CURRENT_DATE()) AND YEAR(registration_date) = YEAR(CURRENT_DATE()) ";
+        String total_operations_this_month = "SELECT count(distinct id_consultation) AS result FROM clinicdatabase.seances WHERE MONTH(temps) = MONTH(CURRENT_DATE())  AND YEAR(temps) = YEAR(CURRENT_DATE()) ";
+        String termine_operations_this_month = "SELECT count(distinct id_consultation) AS result FROM clinicdatabase.seances join consultations on consultations.id = seances.id_consultation WHERE MONTH(temps) = MONTH(CURRENT_DATE())  AND YEAR(temps) = YEAR(CURRENT_DATE()) AND termine = 1";
+        
+        String gains = "select sum(cons_sum) AS result from ( select sum(montant) as cons_sum FROM clinicdatabase.seances WHERE MONTH(temps) = MONTH(CURRENT_DATE())  AND YEAR(temps) = YEAR(CURRENT_DATE()) group by  id_consultation) as subquery  ";
+        String client_nbr_this_month = "SELECT  count(distinct client_id) AS result  FROM clinicdatabase.consultations join seances on consultations.id = seances.id_consultation WHERE MONTH(temps) = MONTH(CURRENT_DATE())  AND YEAR(temps) = YEAR(CURRENT_DATE())";
+        
+        String[] query_array = {client_nbr , operation_nbr , clients_this_month , total_operations_this_month , termine_operations_this_month , gains , client_nbr_this_month} ;
+        try {
+                
+                int i = 0 ; 
+                Statement st = con.createStatement();
+                for(String query : query_array){
+                    
+                    ResultSet rs = st.executeQuery(query);
+                    
+                    if(rs.next()){
+                        result[i] = rs.getString("result") ;
+                    }else{
+                        result[i] = "0" ;
+                    
+                    }
+                    i++ ;
+                    
+                }
+                
+                
+                 
+                st.close();
+            } catch (SQLException e) {
+                System.out.println("error in UQM get apercus results ...");
+            }
+        return result;
+    }
+    
     String[] getMedsResults(DBconnection dbc , String string) throws SQLException {
         
         Connection con =  dbc.getConnection() ;
@@ -309,7 +386,37 @@ void deleteClient(DBconnection dBConnection ,int id) throws SQLException {
             }
         return result;
     }
-    
+    String[] getactsResults(DBconnection dbc , String string) throws SQLException {
+        
+        Connection con =  dbc.getConnection() ;
+        String[] result = null;
+        String mysql_query = "SELECT id , nom_act , cout , IFNULL(description, '---') as descr FROM clinicdatabase.acts_dentaire WHERE nom_act LIKE '%"+string+"%' ";
+        try {
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(mysql_query);
+                
+                Statement st2 = con.createStatement();
+                ResultSet rs2 = st2.executeQuery(mysql_query);
+                
+                int k =0;
+                int i = 0;
+                while(rs2.next()){
+                    k++;
+                }
+                st2.close();
+                result = new String[k];
+                
+                while(rs.next() && i<k) {
+                    result[i] = rs.getString("id")+":::"+rs.getString("nom_act")+":::"+rs.getString("cout")+":::"+rs.getString("descr")+"-";
+                    i++;
+                    System.out.println(Arrays.toString(result));
+                }  
+                st.close();
+            } catch (SQLException e) {
+                System.out.println("error in UQM getacts results...");
+            }
+        return result;
+    }
     void updateCombo(JComboBox combo, DBconnection dBConnection ) throws SQLException {
         Connection con =  dBConnection.getConnection() ;
         String sql = "";
@@ -320,7 +427,7 @@ void deleteClient(DBconnection dBConnection ,int id) throws SQLException {
             sql = "select * from admins";
             col = "username" ;
         }else if("operationsComboBox".equals(combo.getName()) ){
-            sql = "select * from acts_dentaire";
+            sql = "select * from acts_dentaire where nom_act not LIKE '%acte sup%' " ;
             col = "nom_act" ;
         }else if("teethComboBox".equals(combo.getName()) ){
             for(int j = 0 ; j < 32 ;j++){
@@ -383,7 +490,7 @@ void deleteClient(DBconnection dBConnection ,int id) throws SQLException {
                     numberOfUsers++;
                     //result[i] = rs.getString("visit_id")+":::"+rs.getString("time")+":::"+rs.getString("Operation_id")+":::"+rs.getString("tooth")+":::"+rs.getString("seance_nbr")+":::"+rs.getString("prix")+":::"+rs.getString("terminee");
                    
-                    result[i] = rs.getString("id")+":::"+rs.getString("dents")+":::"+rs.getString("nom_act")+":::"+rs.getString("dern_seance")+":::"+rs.getString("dern_date")+":::"+rs.getString("total")+":::"+rs.getString("termine");
+                    result[i] = rs.getString("id")+":::"+rs.getString("dern_date")+":::"+rs.getString("nom_act")+":::"+rs.getString("dents")+":::"+rs.getString("dern_seance")+":::"+rs.getString("total")+":::"+rs.getString("termine");
                     
                     System.out.println("\n");
                     System.out.println("content : "+result[i]);
@@ -415,7 +522,7 @@ void deleteClient(DBconnection dBConnection ,int id) throws SQLException {
         }
         if(minDate == null || maxDate == null){
             minDateString = "'2000-01-01'";
-            maxDateString = "CURDATE()";
+            maxDateString = "CURDATE() + INTERVAL 1 DAY";
         }else{
             minDateString = "'"+minDate.format(formatter)+"'" ;
             maxDateString = "'"+maxDate.format(formatter)+"'";
@@ -487,9 +594,41 @@ void deleteClient(DBconnection dBConnection ,int id) throws SQLException {
             }
         return result;
     }
+    
+String[] getAdminsResults(DBconnection dbc ) throws SQLException {
+        
+        Connection con =  dbc.getConnection() ;
+        String[] result = null;
+        String mysql_query = "SELECT id , username , concat(gestionadminsright,'-',gestionactsright,'-',gestionpatientsright,'-',gestionvisitsright,'-',voirapercuright) as rights FROM clinicdatabase.admins ";
+        try {
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(mysql_query);
+                
+                Statement st2 = con.createStatement();
+                ResultSet rs2 = st2.executeQuery(mysql_query);
+                
+                int k =0;
+                int i = 0;
+                while(rs2.next()){
+                    k++;
+                }
+                st2.close();
+                result = new String[k];
+                
+                while(rs.next() && i<k) {
+                    result[i] = rs.getString("id")+":::"+rs.getString("username")+":::"+rs.getString("rights");
+                    i++;
+                    System.out.println(Arrays.toString(result));
+                }  
+                st.close();
+            } catch (SQLException e) {
+                System.out.println("error in UQM admins results...");
+            }
+        return result;
+    }
 
 
-    Object getOperationIdByName(DBconnection dbc, String operation) throws SQLException {
+    int getOperationIdByName(DBconnection dbc, String operation) throws SQLException {
         Connection con =  dbc.getConnection() ;
         String sql = "select id from acts_dentaire where nom_act='"+operation+"'";
         
@@ -497,13 +636,14 @@ void deleteClient(DBconnection dBConnection ,int id) throws SQLException {
         ResultSet rs = st.executeQuery(sql);
         if(rs.next()){
             System.out.println("returned from if");
-            return rs.getString(1);
+            return rs.getInt(1);
         }
         
         
         con.close();
         System.out.println("returned from function body");
-        return rs.getString("id_operation");
+        return  rs.getInt("id_operation");
+        
         }
     
      int getOperationCostByName(DBconnection dbc, String operation) throws SQLException {
@@ -639,16 +779,279 @@ Client currentClient(DBconnection dbc, int id) throws SQLException {
             }
         return client;
     }
+act currentAct(DBconnection dbc, int id) throws SQLException {
+        Connection con =  dbc.getConnection() ;
+        
+        String mysql_query = "SELECT id , nom_act , cout , description  FROM acts_dentaire WHERE id="+id+" ";
+        
+        act thisAct = new act();
+        
+        try {
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(mysql_query);
+                
+                
+               
+                if(rs.next()){
+                    
+                    thisAct = new act(rs.getInt("id") , rs.getString("nom_act"), rs.getInt("cout") , rs.getString("description"));
+                    st.close();
+                    System.out.println("act object successfully created ");
+                    
+                }else{
+                    System.out.println("act object wasn't created");
+                    //Client client = new Client(0, "" , "", "", "", 0, "") ;
+                    thisAct = null ;
+                    
+                    st.close();
+                }
+                
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                System.out.println("error when craeting acte object ");
+                
+            }
+        return thisAct ;
+    }
+Admin currentAdmin(DBconnection dbc, String username) throws SQLException {
+        Connection con =  dbc.getConnection() ;
+        
+        String mysql_query = "SELECT id , username ,concat(gestionadminsright,'-',gestionactsright,'-',gestionpatientsright,'-',gestionvisitsright,'-',voirapercuright) as rights FROM clinicdatabase.admins where username='"+username+"' ";
+        int[] rights = new int[5] ;
+        String[] rightString = new String[5] ;
+        Admin currAdmin = new Admin();
+        
+        try {
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(mysql_query);
+                
+                
+               
+                if(rs.next()){
+                    
+                    rightString = rs.getString("rights").split("-") ;
+                    
+                    for (int i = 0; i < 5; i++) {
+                        rights[i] = Integer.parseInt(rightString[i]);
+                    }
+                    
+                    currAdmin = new Admin(rs.getInt("id") , rs.getString("username"),rights );
+                    st.close();
+                    System.out.println("admin created : " + currAdmin.name);
+                    
+                }else{
+                    System.out.println("admin wasnt created ");
+                    currAdmin = null ;
+                    
+                    st.close();
+                }
+                
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                System.out.println("error when creating admin object");
+                
+            }
+        return currAdmin ;
+    }
+
+Admin currentAdminWpass(DBconnection dbc, String username) throws SQLException {
+        Connection con =  dbc.getConnection() ;
+        
+        String mysql_query = "SELECT id , username ,concat(gestionadminsright,'-',gestionactsright,'-',gestionpatientsright,'-',gestionvisitsright,'-',voirapercuright) as rights , password FROM clinicdatabase.admins where username='"+username+"' ";
+        int[] rights = new int[5] ;
+        String[] rightString = new String[5] ;
+        Admin currAdmin = new Admin();
+        
+        try {
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(mysql_query);
+                
+                
+               
+                if(rs.next()){
+                    
+                    rightString = rs.getString("rights").split("-") ;
+                    
+                    for (int i = 0; i < 5; i++) {
+                        rights[i] = Integer.parseInt(rightString[i]);
+                    }
+                    
+                    currAdmin = new Admin(rs.getInt("id") , rs.getString("username"),rights , rs.getString("password") );
+                    st.close();
+                    System.out.println("admin with pass created : " + currAdmin.name);
+                    
+                }else{
+                    System.out.println("admin with pass wasnt created ");
+                    currAdmin = null ;
+                    
+                    st.close();
+                }
+                
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                System.out.println("error when creating admin object");
+                
+            }
+        return currAdmin ;
+    }
+
+Seance currentSeance(DBconnection dbc, int id_cons , int id) throws SQLException {
+        Connection con =  dbc.getConnection() ;
+        
+        String mysql_query = "SELECT  * FROM clinicdatabase.seances where id_consultation="+id_cons+" and nbr_seance = "+id+" ";
+        
+        Seance seance = new Seance(); 
+        
+        try {
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(mysql_query);
+                
+                
+               
+                if(rs.next()){
+                    
+                    seance = new Seance(rs.getInt("id_consultation") , rs.getInt("nbr_seance"), rs.getString("notes") , rs.getInt("montant"));
+                    st.close();
+                    System.out.println("seance object successfully created ");
+                    
+                }else{
+                    System.out.println("seance object wasn't created");
+                    //Client client = new Client(0, "" , "", "", "", 0, "") ;
+                    seance = null ;
+                    
+                    st.close();
+                }
+                
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                System.out.println("error when craeting seance object ");
+                
+            }
+        return seance ;
+    }
+    void modifySeance(DBconnection dBConnection,int cons_id , int id, String notes, int montant ) throws SQLException {
+        
+        String idString = String.valueOf(id) ;
+                
+        Connection con =  dBConnection.getConnection() ;
+        String sqlstmt = "UPDATE clinicdatabase.seances SET notes='"+notes+"', montant='"+montant+"'  WHERE (`id_consultation` ='"+cons_id+"') and (`nbr_seance` = '"+id+"')" ;
+        PreparedStatement ptst = con.prepareStatement(sqlstmt);
+        
+        ptst.executeUpdate();
+        
+        System.out.println("seance modified !");
+        
+        con.close();
+        
+        JOptionPane optionPane = new JOptionPane("seance modified ! ",JOptionPane.INFORMATION_MESSAGE);
+        final JDialog dialog = optionPane.createDialog("Message");
+        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+
+        Timer timer = new Timer(5000, e -> {
+            dialog.dispose();
+        });
+        timer.setRepeats(false);
+        timer.start();
+
+        dialog.setVisible(true);
+    }
+    
+    void deleteSeance(DBconnection dbc, int cons_id, int id) throws SQLException {
+        
+        String idString = String.valueOf(id) ;
+                
+        Connection con =  dbc.getConnection() ;
+        String sqlstmt = "DELETE FROM `clinicdatabase`.`seances` WHERE (`id_consultation` ='"+cons_id+"') and (`nbr_seance` ='"+id+"')" ;
+        PreparedStatement ptst = con.prepareStatement(sqlstmt);
+        
+        ptst.executeUpdate();
+        
+        System.out.println("seance supprimé !");
+        
+        con.close();
+        
+        JOptionPane optionPane = new JOptionPane("seance supprimé ! ",JOptionPane.INFORMATION_MESSAGE);
+        final JDialog dialog = optionPane.createDialog("Message");
+        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+
+        Timer timer = new Timer(5000, e -> {
+            dialog.dispose();
+        });
+        timer.setRepeats(false);
+        timer.start();
+
+        dialog.setVisible(true);
+    }
+    
+        void deleteConsultation(DBconnection dbc, int cons_id) throws SQLException {
+        
+                
+        Connection con =  dbc.getConnection() ;
+        String sqlstmt = "DELETE FROM `clinicdatabase`.`consultations` WHERE `id` ='"+cons_id+"'" ;
+        PreparedStatement ptst = con.prepareStatement(sqlstmt);
+        
+        ptst.executeUpdate();
+        
+        System.out.println("consultation supprimé !");
+        
+        con.close();
+        
+        JOptionPane optionPane = new JOptionPane("cons supprimé ! ",JOptionPane.INFORMATION_MESSAGE);
+        final JDialog dialog = optionPane.createDialog("Message");
+        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+
+        Timer timer = new Timer(5000, e -> {
+            dialog.dispose();
+        });
+        timer.setRepeats(false);
+        timer.start();
+
+        dialog.setVisible(true);
+    }
+Consultation currentConsultation(DBconnection dbc, int id_cons ) throws SQLException {
+        Connection con =  dbc.getConnection() ;
+        
+        String mysql_query = "SELECT * FROM clinicdatabase.consultations where id="+id_cons+" ";
+        
+        Consultation cons = new Consultation(); 
+        
+        try {
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(mysql_query);
+                
+                
+               
+                if(rs.next()){
+                    
+                    cons = new Consultation(rs.getInt("id") , rs.getInt("client_id"), rs.getInt("act_dentaire") , rs.getInt("termine"));
+                    st.close();
+                    System.out.println("consultation object successfully created ");
+                    
+                }else{
+                    System.out.println("consultation object wasn't created");
+                    //Client client = new Client(0, "" , "", "", "", 0, "") ;
+                    cons = null ;
+                    
+                    st.close();
+                }
+                
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                System.out.println("error when craeting consulatoin object ");
+                
+            }
+        return cons ;
+    }
     void modifyClient(DBconnection dBConnection,int id ,  String nom, String prenom , String phone, String adress, LocalDate date , String note) throws SQLException {
         
         
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String dateString = date.format(formatter) ;
         String idString = String.valueOf(id) ;
-        
+        String noteSAFE = note.replace("'", "''");
+                
         Connection con =  dBConnection.getConnection() ;
-        String sql = "INSERT INTO clinicdatabase.clients ( nom, prenom, adresse, num_tel, date_naiss , notes) VALUES (?, ?, ?, ?, ? , ?) " ;
-        String sqlstmt = "UPDATE clinicdatabase.clients SET nom='"+nom+"', prenom='"+prenom+"', adresse='"+adress+"' , num_tel='"+phone+"', date_naiss='"+dateString+"', notes='"+note+"' WHERE id='"+id+"'" ;
+        String sqlstmt = "UPDATE clinicdatabase.clients SET nom='"+nom+"', prenom='"+prenom+"', adresse='"+adress+"' , num_tel='"+phone+"', date_naiss='"+dateString+"', notes='"+noteSAFE+"' WHERE id='"+id+"'" ;
         PreparedStatement ptst = con.prepareStatement(sqlstmt);
         
         ptst.executeUpdate();
@@ -658,6 +1061,139 @@ Client currentClient(DBconnection dbc, int id) throws SQLException {
         con.close();
         
         JOptionPane optionPane = new JOptionPane("client modified ! ",JOptionPane.INFORMATION_MESSAGE);
+        final JDialog dialog = optionPane.createDialog("Message");
+        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+
+        Timer timer = new Timer(5000, e -> {
+            dialog.dispose();
+        });
+        timer.setRepeats(false);
+        timer.start();
+
+        dialog.setVisible(true);
+    }
+
+    void modifyAct(DBconnection dBConnection, int id, String nom_act, int cout, String description) throws SQLException {
+        
+        String idString = String.valueOf(id) ;
+                
+        String sqlstmt = "UPDATE clinicdatabase.acts_dentaire SET nom_act='"+nom_act+"', cout='"+cout+"', description='"+description+"'  WHERE id='"+id+"'" ;
+        Connection con =  dBConnection.getConnection() ;
+        PreparedStatement ptst = con.prepareStatement(sqlstmt);
+        
+        ptst.executeUpdate();
+        
+        System.out.println("act modified !");
+        
+        con.close();
+        
+        JOptionPane optionPane = new JOptionPane("acte modified ! ",JOptionPane.INFORMATION_MESSAGE);
+        final JDialog dialog = optionPane.createDialog("Message");
+        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+
+        Timer timer = new Timer(5000, e -> {
+            dialog.dispose();
+        });
+        timer.setRepeats(false);
+        timer.start();
+
+        dialog.setVisible(true);
+    }
+
+    void deleteAct(DBconnection dbc, int id) throws SQLException {
+        
+        String idString = String.valueOf(id) ;
+                
+        Connection con =  dbc.getConnection() ;
+        String sqlstmt = "UPDATE clinicdatabase.acts_dentaire SET nom_act='acte supprimé'  WHERE id='"+id+"'" ;
+        PreparedStatement ptst = con.prepareStatement(sqlstmt);
+        
+        ptst.executeUpdate();
+        
+        System.out.println("acte supprimé !");
+        
+        con.close();
+        
+        JOptionPane optionPane = new JOptionPane("acte supprimé ! ",JOptionPane.INFORMATION_MESSAGE);
+        final JDialog dialog = optionPane.createDialog("Message");
+        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+
+        Timer timer = new Timer(5000, e -> {
+            dialog.dispose();
+        });
+        timer.setRepeats(false);
+        timer.start();
+
+        dialog.setVisible(true);
+    }
+
+    void modifyConsultation(DBconnection dBConnection,int cons_id , int client_id, int act_id , int[] dents , int termine ) throws SQLException {
+        
+                
+        Connection con =  dBConnection.getConnection() ;
+        String sqlstmt ;
+        if(client_id == 0){
+            sqlstmt = "UPDATE clinicdatabase.consultations SET act_dentaire='"+act_id+"', termine='"+termine+"'  WHERE `id` ='"+cons_id+"'" ;
+       
+        }else{
+            sqlstmt = "UPDATE clinicdatabase.consultations SET client_id='"+client_id+"', act_dentaire='"+act_id+"', termine='"+termine+"'  WHERE `id` ='"+cons_id+"'" ;
+       
+        }
+        
+        PreparedStatement ptst = con.prepareStatement(sqlstmt);
+        ptst.executeUpdate();
+        
+        //should be the delete statement 
+        String sql = "DELETE FROM dents_for_consultation WHERE id_consultation = '" + cons_id + "' ";
+        if (dents != null) {
+            // Execute the DELETE statement
+            ptst = con.prepareStatement(sql);
+            ptst.executeUpdate();
+            System.out.println("deleted teeth ");
+
+            //should be the insert statement 
+            for (int dent : dents) {
+                // SQL DELETE statement
+                sql = "INSERT INTO `clinicdatabase`.`dents_for_consultation` (`id_consultation`, `tooth_id`) VALUES ('" + cons_id + "', '" + dent + "')";
+                // Execute the DELETE statement
+                ptst = con.prepareStatement(sql);
+                ptst.executeUpdate();
+                System.out.println("tooth added");
+
+            }
+        }
+        
+        
+        
+        System.out.println("consultation modified !");
+        
+        con.close();
+        
+        JOptionPane optionPane = new JOptionPane("consultation modified ! ",JOptionPane.INFORMATION_MESSAGE);
+        final JDialog dialog = optionPane.createDialog("Message");
+        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+
+        Timer timer = new Timer(5000, e -> {
+            dialog.dispose();
+        });
+        timer.setRepeats(false);
+        timer.start();
+
+        dialog.setVisible(true);}
+
+    void modifyAdmin(DBconnection dBConnection, int id, String name, String pass, int adminsRight, int actesRight, int patientsright, int visitsright, int voirapercusright) throws SQLException {
+        String sqlstmt = "UPDATE `clinicdatabase`.`admins` SET `username` = '"+name+"', `password` = '"+pass+"', `gestionadminsright` = "+adminsRight+", `gestionactsright` = "+actesRight+", `gestionpatientsright` = "+patientsright+", `gestionvisitsright` = "+visitsright+", `voirapercuright` = "+voirapercusright+" WHERE (`id` = "+id+");" ;
+        
+        Connection con =  dBConnection.getConnection() ;
+        PreparedStatement ptst = con.prepareStatement(sqlstmt);
+        
+        ptst.executeUpdate();
+        
+        System.out.println("admin modified !");
+        
+        con.close();
+        
+        JOptionPane optionPane = new JOptionPane("admin modified ! ",JOptionPane.INFORMATION_MESSAGE);
         final JDialog dialog = optionPane.createDialog("Message");
         dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 

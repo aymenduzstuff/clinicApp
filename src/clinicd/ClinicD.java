@@ -13,11 +13,12 @@ public class ClinicD {
   
     public static void main(String[] args) {
         DBconnection dBConnection = new DBconnection("jdbc:mysql://localhost:3306/clinicdatabase" ,"clinicdatabase" , "aymenhhh");
-        //login adminLogin = new login(dBConnection);
-        //adminLogin.setVisible(true);
         
-        mainFrame mainTest = new mainFrame(dBConnection , "aymen");
-        mainTest.setVisible(true);
+        login adminLogin = new login(dBConnection);
+        adminLogin.setVisible(true);
+        
+        //mainFrame mainTest = new mainFrame(dBConnection , "aymen");
+        //mainTest.setVisible(true);
     }
     
 }

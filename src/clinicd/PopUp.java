@@ -17,6 +17,8 @@ import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -32,10 +34,12 @@ public class PopUp extends javax.swing.JFrame {
     
     
     Client modClient = new Client();
+    act modAct = new act();
+    Admin modAdmin = new Admin();
     /**
      * Creates new form PopUp
      */
-    public PopUp(String btnName , DBconnection dBConnection, int id) throws SQLException {
+    public PopUp(String btnName , DBconnection dBConnection, Object currentObj) throws SQLException {
         initComponents();
         this.dBConnection = dBConnection;
         
@@ -45,25 +49,35 @@ public class PopUp extends javax.swing.JFrame {
             popUpParentPanel.add(newAdminPanel);
             popUpParentPanel.repaint();
             popUpParentPanel.revalidate();
+            
+            if(currentObj!=null){
+                modAdmin = (Admin) currentObj ;
+                UIC.paintModifAdmin( modAdmin , usernameField, passwordField, gestionAdminsRight ,visitsRight , gestionActesRight , gestionPatientsRight ,voirApercusRight , adminMajBtn , adminSaveBtn , adminDiscardBtn );
+            }
         }else if(btnName == "operation"){
             popUpParentPanel.removeAll();
             popUpParentPanel.add(newOpPanel);
             popUpParentPanel.repaint();
             popUpParentPanel.revalidate();
+            
+            if(currentObj!=null){
+                modAct = (act) currentObj ;
+                UIC.paintModifAct( modAct , operationNameField, operationPriceSpinner, operationDescription, saveActBtn , updateActBtn );
+            }
         }else if(btnName == "client"){
             popUpParentPanel.removeAll();
             popUpParentPanel.add(newClientPanel);
             popUpParentPanel.repaint();
             popUpParentPanel.revalidate();
             
-            if(id!=0){
-                modClient = UQM.currentClient(dBConnection, id) ;
+            if(currentObj!=null){
+                modClient = (Client) currentObj ;
                 UIC.paintModifClient(modClient, clientNameField, clientFNameField, clientPhoneField, clientAdressField, ageField , clientBD, clientTextArea , modClientBtn , viderBtn , sauvegarderBtn);
             }
             
-        }else if(btnName == "facture"){
+        }else if(btnName == "ordonnance"){
             popUpParentPanel.removeAll();
-            popUpParentPanel.add(ordonnancePanel);
+            popUpParentPanel.add(newAdminPanel);
             popUpParentPanel.repaint();
             popUpParentPanel.revalidate();
         }
@@ -91,22 +105,26 @@ public class PopUp extends javax.swing.JFrame {
         passwordField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        gestionAdminsRight = new javax.swing.JRadioButton();
+        gestionActesRight = new javax.swing.JRadioButton();
+        gestionPatientsRight = new javax.swing.JRadioButton();
+        voirApercusRight = new javax.swing.JRadioButton();
+        adminDiscardBtn = new javax.swing.JButton();
+        adminSaveBtn = new javax.swing.JButton();
+        visitsRight = new javax.swing.JRadioButton();
+        adminMajBtn = new javax.swing.JButton();
         newOpPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         operationNameField = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        operationPriceSpinner = new javax.swing.JSpinner();
-        jButton5 = new javax.swing.JButton();
+        SpinnerModel model5 = new SpinnerNumberModel(0, 0, 100000, 500);
+        operationPriceSpinner = new javax.swing.JSpinner(model5) ;
+        saveActBtn = new javax.swing.JButton();
         jLabel18 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         operationDescription = new javax.swing.JTextArea();
+        updateActBtn = new javax.swing.JButton();
         newClientPanel = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -154,27 +172,41 @@ public class PopUp extends javax.swing.JFrame {
 
         jLabel5.setText("mot de pass");
 
-        jLabel6.setText("authorities :");
+        jLabel6.setText("responsabilites :");
 
-        jRadioButton1.setText("consulter information ");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        gestionAdminsRight.setText("gestion des admins");
+        gestionAdminsRight.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                gestionAdminsRightActionPerformed(evt);
             }
         });
 
-        jRadioButton2.setText("suppression des visites");
+        gestionActesRight.setText("gestion des actes dentaires");
 
-        jRadioButton3.setText("modifications des visites");
+        gestionPatientsRight.setText("gestion des patients ");
 
-        jRadioButton4.setText("ajoute/ suppression des acts");
+        voirApercusRight.setText("consultation des appercues statistiques ");
 
-        jButton1.setText("discard");
+        adminDiscardBtn.setText("réinitialiser");
 
-        jButton2.setText("save");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        adminSaveBtn.setText("sauvegarder");
+        adminSaveBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                adminSaveBtnActionPerformed(evt);
+            }
+        });
+
+        visitsRight.setText("suppression / modification des visites ");
+        visitsRight.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                visitsRightActionPerformed(evt);
+            }
+        });
+
+        adminMajBtn.setText("mettre a jour");
+        adminMajBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                adminMajBtnMouseClicked(evt);
             }
         });
 
@@ -183,29 +215,9 @@ public class PopUp extends javax.swing.JFrame {
         newAdminPanelLayout.setHorizontalGroup(
             newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(newAdminPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(newAdminPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newAdminPanelLayout.createSequentialGroup()
-                        .addGap(0, 177, Short.MAX_VALUE)
-                        .addGroup(newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newAdminPanelLayout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(41, 41, 41))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newAdminPanelLayout.createSequentialGroup()
-                                .addGroup(newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jRadioButton1)
-                                    .addComponent(jRadioButton4)
-                                    .addComponent(jRadioButton3)
-                                    .addComponent(jRadioButton2))
-                                .addGap(73, 73, 73))))))
-            .addGroup(newAdminPanelLayout.createSequentialGroup()
-                .addGap(87, 87, 87)
-                .addGroup(newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(67, 67, 67)
+                .addGroup(newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel6)
                     .addComponent(jLabel5)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -214,9 +226,25 @@ public class PopUp extends javax.swing.JFrame {
                     .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newAdminPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(164, 164, 164))
+                .addContainerGap(108, Short.MAX_VALUE)
+                .addGroup(newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newAdminPanelLayout.createSequentialGroup()
+                        .addGroup(newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(voirApercusRight)
+                                .addComponent(gestionPatientsRight)
+                                .addComponent(gestionActesRight)
+                                .addComponent(gestionAdminsRight)
+                                .addComponent(visitsRight))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newAdminPanelLayout.createSequentialGroup()
+                                .addComponent(adminDiscardBtn)
+                                .addGap(75, 75, 75)
+                                .addComponent(adminSaveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(adminMajBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(41, 41, 41))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newAdminPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(164, 164, 164))))
         );
         newAdminPanelLayout.setVerticalGroup(
             newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,29 +252,35 @@ public class PopUp extends javax.swing.JFrame {
                 .addGap(40, 40, 40)
                 .addComponent(jLabel2)
                 .addGap(52, 52, 52)
-                .addGroup(newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4)
-                    .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
                 .addGap(18, 18, 18)
                 .addGroup(newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel5)
                     .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addGap(45, 45, 45)
                 .addComponent(jLabel6)
-                .addGap(18, 18, 18)
-                .addComponent(jRadioButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addComponent(gestionAdminsRight)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButton2)
+                .addComponent(gestionActesRight)
                 .addGap(9, 9, 9)
-                .addComponent(jRadioButton3)
+                .addComponent(gestionPatientsRight)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButton4)
-                .addGap(52, 52, 52)
+                .addComponent(visitsRight, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(voirApercusRight)
+                .addGap(24, 24, 24)
+                .addComponent(adminMajBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(35, 35, 35))
+                    .addComponent(adminDiscardBtn)
+                    .addComponent(adminSaveBtn))
+                .addGap(25, 25, 25))
         );
+
+        adminMajBtn.setVisible(false) ;
 
         popUpParentPanel.add(newAdminPanel, "card3");
 
@@ -262,10 +296,10 @@ public class PopUp extends javax.swing.JFrame {
 
         jLabel14.setText("montant a charger");
 
-        jButton5.setText("sauvegarder");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        saveActBtn.setText("sauvegarder");
+        saveActBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                saveActBtnActionPerformed(evt);
             }
         });
 
@@ -278,10 +312,21 @@ public class PopUp extends javax.swing.JFrame {
         operationDescription.setRows(5);
         jScrollPane2.setViewportView(operationDescription);
 
+        updateActBtn.setText("mettre a jour");
+        updateActBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                updateActBtnMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout newOpPanelLayout = new javax.swing.GroupLayout(newOpPanel);
         newOpPanel.setLayout(newOpPanelLayout);
         newOpPanelLayout.setHorizontalGroup(
             newOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(newOpPanelLayout.createSequentialGroup()
+                .addGap(175, 175, 175)
+                .addComponent(jLabel1)
+                .addContainerGap(142, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newOpPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(newOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -293,18 +338,16 @@ public class PopUp extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(newOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(operationNameField)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(newOpPanelLayout.createSequentialGroup()
-                                .addComponent(operationPriceSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 154, Short.MAX_VALUE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                                .addComponent(operationPriceSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(newOpPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton5)))
+                        .addGroup(newOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(updateActBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                            .addComponent(saveActBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(71, 71, 71))
-            .addGroup(newOpPanelLayout.createSequentialGroup()
-                .addGap(175, 175, 175)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         newOpPanelLayout.setVerticalGroup(
             newOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -318,15 +361,19 @@ public class PopUp extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addGroup(newOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
-                    .addComponent(operationPriceSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(operationPriceSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(47, 47, 47)
                 .addGroup(newOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel18)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-                .addComponent(jButton5)
-                .addGap(29, 29, 29))
+                .addGap(18, 18, 18)
+                .addComponent(saveActBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(updateActBtn)
+                .addContainerGap(36, Short.MAX_VALUE))
         );
+
+        updateActBtn.setVisible(false);
 
         popUpParentPanel.add(newOpPanel, "card2");
 
@@ -496,7 +543,7 @@ public class PopUp extends javax.swing.JFrame {
                     .addGroup(newClientPanelLayout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addComponent(modClientBtn)
                 .addGap(18, 18, 18)
                 .addGroup(newClientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -609,7 +656,7 @@ public class PopUp extends javax.swing.JFrame {
                     .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(med1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 164, Short.MAX_VALUE)
                 .addGroup(ordonnancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6)
                     .addComponent(jButton7))
@@ -632,16 +679,34 @@ public class PopUp extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void adminSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminSaveBtnActionPerformed
         try {
-            UQM.insertAdmin(dBConnection, usernameField.getText() , passwordField.getText());
+            int adminsRight = 0 , actesRight = 0 , patientsright = 0 , visitsright = 0 , voirapercusright = 0 ;
+            
+            if(gestionAdminsRight.isSelected()){
+                adminsRight = 1 ;
+            }
+            if(gestionActesRight.isSelected()){
+                actesRight = 1 ;
+            }
+            if(gestionPatientsRight.isSelected()){
+                patientsright = 1 ;
+            }
+            if(visitsRight.isSelected()){
+                visitsright = 1 ;
+            }
+            if(voirApercusRight.isSelected()){
+                voirapercusright = 1 ;
+            }
+            
+            UQM.insertAdmin(dBConnection, usernameField.getText() , passwordField.getText() , adminsRight , actesRight , patientsright , visitsright  , voirapercusright  );
         } catch (SQLException ex) {
             Logger.getLogger(PopUp.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
         
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_adminSaveBtnActionPerformed
 
     private void operationNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_operationNameFieldActionPerformed
         // TODO add your handling code here:
@@ -664,17 +729,17 @@ public class PopUp extends javax.swing.JFrame {
 
     }//GEN-LAST:event_sauvegarderBtnActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void saveActBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActBtnActionPerformed
         try {
             UQM.insertOperation(dBConnection,  operationNameField.getText() , operationPriceSpinner.getValue().toString() , operationDescription.getText());
         } catch (SQLException ex) {
             Logger.getLogger(PopUp.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_saveActBtnActionPerformed
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    private void gestionAdminsRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestionAdminsRightActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    }//GEN-LAST:event_gestionAdminsRightActionPerformed
 
     private void viderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viderBtnActionPerformed
         clientNameField.setText("");
@@ -789,6 +854,47 @@ public class PopUp extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_modClientBtnActionPerformed
 
+    private void updateActBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateActBtnMouseClicked
+        try {
+            UQM.modifyAct(dBConnection, modAct.id, operationNameField.getText(), (int) operationPriceSpinner.getValue(), operationDescription.getText());
+        } catch (SQLException ex) {
+            Logger.getLogger(PopUp.class.getName()).log(Level.SEVERE, null, ex);
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_updateActBtnMouseClicked
+
+    private void adminMajBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_adminMajBtnMouseClicked
+       
+        
+        
+        try {
+            int adminsRight = 0, actesRight = 0, patientsright = 0, visitsright = 0, voirapercusright = 0;
+
+            if(gestionAdminsRight.isSelected()){
+                adminsRight = 1 ;
+            }
+            if(gestionActesRight.isSelected()){
+                actesRight = 1 ;
+            }
+            if(gestionPatientsRight.isSelected()){
+                patientsright = 1 ;
+            }
+            if(visitsRight.isSelected()){
+                visitsright = 1 ;
+            }
+            if(voirApercusRight.isSelected()){
+                voirapercusright = 1 ;
+            }
+            
+            UQM.modifyAdmin(dBConnection, modAdmin.id, modAdmin.name, modAdmin.pass, adminsRight, actesRight, patientsright, visitsright, voirapercusright);
+        } catch (SQLException ex) {
+            Logger.getLogger(PopUp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_adminMajBtnMouseClicked
+
+    private void visitsRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visitsRightActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_visitsRightActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -825,6 +931,9 @@ public class PopUp extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton adminDiscardBtn;
+    private javax.swing.JButton adminMajBtn;
+    private javax.swing.JButton adminSaveBtn;
     private javax.swing.JTextField ageField;
     private javax.swing.JLabel checkAge;
     private javax.swing.JLabel checkNom;
@@ -835,9 +944,9 @@ public class PopUp extends javax.swing.JFrame {
     private javax.swing.JTextField clientNameField;
     private javax.swing.JTextField clientPhoneField;
     private javax.swing.JTextArea clientTextArea;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JRadioButton gestionActesRight;
+    private javax.swing.JRadioButton gestionAdminsRight;
+    private javax.swing.JRadioButton gestionPatientsRight;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
@@ -860,10 +969,6 @@ public class PopUp extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -881,7 +986,11 @@ public class PopUp extends javax.swing.JFrame {
     private javax.swing.JTextField passwordField;
     private javax.swing.JPanel popUpParentPanel;
     private javax.swing.JButton sauvegarderBtn;
+    private javax.swing.JButton saveActBtn;
+    private javax.swing.JButton updateActBtn;
     private javax.swing.JTextField usernameField;
     private javax.swing.JButton viderBtn;
+    private javax.swing.JRadioButton visitsRight;
+    private javax.swing.JRadioButton voirApercusRight;
     // End of variables declaration//GEN-END:variables
 }
