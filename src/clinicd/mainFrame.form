@@ -939,12 +939,12 @@
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="6" rowCount="4">
-                        <Column editable="true" title="id" type="java.lang.Object"/>
-                        <Column editable="true" title="nom" type="java.lang.Object"/>
-                        <Column editable="true" title="prenom" type="java.lang.Object"/>
-                        <Column editable="true" title="adresse" type="java.lang.Object"/>
-                        <Column editable="true" title="numero tel" type="java.lang.Object"/>
-                        <Column editable="true" title="date naissance" type="java.lang.Object"/>
+                        <Column editable="false" title="id" type="java.lang.Object"/>
+                        <Column editable="false" title="nom" type="java.lang.Object"/>
+                        <Column editable="false" title="prenom" type="java.lang.Object"/>
+                        <Column editable="false" title="adresse" type="java.lang.Object"/>
+                        <Column editable="false" title="numero tel" type="java.lang.Object"/>
+                        <Column editable="false" title="date naissance" type="java.lang.Object"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -970,12 +970,12 @@
                           <Renderer/>
                         </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title value="numero tel"/>
+                          <Title/>
                           <Editor/>
                           <Renderer/>
                         </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title value="date naissance"/>
+                          <Title/>
                           <Editor/>
                           <Renderer/>
                         </Column>
@@ -1993,35 +1993,35 @@
                           <Properties>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                               <Table columnCount="5" rowCount="5">
-                                <Column editable="true" title="seance" type="java.lang.Object">
+                                <Column editable="false" title="seance" type="java.lang.Object">
                                   <Data value="1"/>
                                   <Data value="null"/>
                                   <Data value="null"/>
                                   <Data value="null"/>
                                   <Data value="null"/>
                                 </Column>
-                                <Column editable="true" title="date" type="java.lang.Object">
+                                <Column editable="false" title="date" type="java.lang.Object">
                                   <Data value="12 / 12 / 2000"/>
                                   <Data value="null"/>
                                   <Data value="null"/>
                                   <Data value="null"/>
                                   <Data value="null"/>
                                 </Column>
-                                <Column editable="true" title="montat" type="java.lang.Object">
+                                <Column editable="false" title="montat" type="java.lang.Object">
                                   <Data value="admin"/>
                                   <Data value="null"/>
                                   <Data value="null"/>
                                   <Data value="null"/>
                                   <Data value="null"/>
                                 </Column>
-                                <Column editable="true" title="saisi par" type="java.lang.Object">
+                                <Column editable="false" title="saisi par" type="java.lang.Object">
                                   <Data value="1500"/>
                                   <Data value="null"/>
                                   <Data value="null"/>
                                   <Data value="null"/>
                                   <Data value="null"/>
                                 </Column>
-                                <Column editable="true" title="remarque" type="java.lang.Object">
+                                <Column editable="false" title="remarque" type="java.lang.Object">
                                   <Data value="rien a dire"/>
                                   <Data value="null"/>
                                   <Data value="null"/>
@@ -2428,9 +2428,9 @@
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="3" rowCount="4">
-                        <Column editable="true" title="n" type="java.lang.Integer"/>
-                        <Column editable="true" title="family name" type="java.lang.Object"/>
-                        <Column editable="true" title="name" type="java.lang.Object"/>
+                        <Column editable="false" title="n" type="java.lang.Integer"/>
+                        <Column editable="false" title="family name" type="java.lang.Object"/>
+                        <Column editable="false" title="name" type="java.lang.Object"/>
                       </Table>
                     </Property>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -2658,8 +2658,8 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="operationsComboBox" alignment="0" min="-2" pref="151" max="-2" attributes="0"/>
                                           <Group type="102" alignment="0" attributes="0">
@@ -2669,28 +2669,28 @@
                                               <Component id="jLabel27" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="priceTF" min="-2" pref="119" max="-2" attributes="0"/>
-                                          <Group type="102" alignment="1" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
+                                              <Component id="priceTF" min="-2" pref="109" max="-2" attributes="0"/>
+                                              <EmptySpace max="32767" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Component id="jLabel89" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                      <Component id="termineRadio" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
                                               <Component id="jLabel64" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <Component id="termineRadio" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <Component id="jLabel89" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
-                                  <Component id="jScrollPane7" alignment="1" min="-2" pref="479" max="-2" attributes="0"/>
+                                  <Component id="jScrollPane7" min="-2" pref="479" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -2704,35 +2704,33 @@
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="savebtn" min="-2" pref="56" max="-2" attributes="0"/>
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                                              <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jLabel89" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="32767" attributes="0"/>
-                                              <Component id="termineRadio" min="-2" pref="19" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Group type="103" groupAlignment="3" attributes="0">
+                                              <Component id="jLabel20" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabel27" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <Group type="102" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="jLabel64" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                                      <Component id="jLabel20" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jLabel27" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                              </Group>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Component id="operationsComboBox" max="32767" attributes="0"/>
-                                                  <Component id="priceTF" min="-2" pref="42" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
+                                          <Component id="jLabel64" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="operationsComboBox" max="32767" attributes="0"/>
+                                          <Component id="priceTF" min="-2" pref="42" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jLabel89" min="-2" max="-2" attributes="0"/>
+                                              <Component id="termineRadio" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <Component id="savebtn" min="-2" pref="56" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
@@ -2740,7 +2738,7 @@
                                   <Component id="jScrollPane7" min="-2" pref="67" max="-2" attributes="0"/>
                                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="73" max="32767" attributes="0"/>
+                              <EmptySpace pref="79" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2762,7 +2760,7 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel20">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="acte dentaire"/>
+                        <Property name="text" type="java.lang.String" value="acte dentaire :"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel27">
@@ -2854,7 +2852,7 @@
                     </Container>
                     <Component class="javax.swing.JLabel" name="jLabel64">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="montant "/>
+                        <Property name="text" type="java.lang.String" value="montant :"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JSpinner" name="priceTF">
@@ -2884,7 +2882,7 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel89">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="termin&#xe9;"/>
+                        <Property name="text" type="java.lang.String" value="termin&#xe9; :"/>
                       </Properties>
                     </Component>
                   </SubComponents>
@@ -2911,11 +2909,11 @@
                                       <Component id="jLabel38" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="updatePrice" min="-2" pref="119" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
+                                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                                       <Component id="jLabel24" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="termineradio1" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
                                       <Component id="jLabel90" min="-2" pref="42" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="jScrollPane10" min="-2" pref="479" max="-2" attributes="0"/>
@@ -4243,31 +4241,34 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel76" min="-2" pref="97" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="jLabel78" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                      <Component id="jLabel77" min="-2" pref="45" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
-                      <Component id="jLabel79" min="-2" pref="60" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="130" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="-2" pref="150" max="-2" attributes="0"/>
-                      <Component id="jScrollPane12" min="-2" pref="1162" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="118" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jLabel76" min="-2" pref="97" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jLabel78" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+                              <Component id="jLabel77" min="-2" pref="45" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
+                              <Component id="jLabel79" min="-2" pref="60" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="108" max="-2" attributes="0"/>
+                              <Component id="jScrollPane12" min="-2" pref="1162" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace pref="1472" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jLabel76" alignment="1" min="-2" pref="40" max="-2" attributes="0"/>
-                          <Group type="103" alignment="1" groupAlignment="1" attributes="0">
+                      <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel76" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
                               <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jLabel77" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jLabel79" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -4275,9 +4276,9 @@
                               <Component id="jLabel78" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                       <Component id="jScrollPane12" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="167" max="32767" attributes="0"/>
+                      <EmptySpace pref="82" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -4344,16 +4345,16 @@
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="7" rowCount="2">
-                        <Column editable="true" title="id" type="java.lang.Object"/>
-                        <Column editable="true" title="l&apos;utilisateur" type="java.lang.Object">
+                        <Column editable="false" title="id" type="java.lang.Object"/>
+                        <Column editable="false" title="l&apos;utilisateur" type="java.lang.Object">
                           <Data value="aymen"/>
                           <Data value="null"/>
                         </Column>
-                        <Column editable="true" title="gestion des admins" type="java.lang.Object"/>
-                        <Column editable="true" title="gestion des actes dentaires" type="java.lang.Object"/>
-                        <Column editable="true" title="gestion des patients " type="java.lang.Object"/>
-                        <Column editable="true" title="modification / suppression des visites" type="java.lang.Object"/>
-                        <Column editable="true" title="voir les apercus statistiques" type="java.lang.Object"/>
+                        <Column editable="false" title="gestion des admins" type="java.lang.Object"/>
+                        <Column editable="false" title="gestion des actes dentaires" type="java.lang.Object"/>
+                        <Column editable="false" title="gestion des patients " type="java.lang.Object"/>
+                        <Column editable="false" title="modification / suppression des visites" type="java.lang.Object"/>
+                        <Column editable="false" title="voir les apercus statistiques" type="java.lang.Object"/>
                       </Table>
                     </Property>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -4638,7 +4639,7 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="jLabel81">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="nombre des patients inscrit :"/>
+                    <Property name="text" type="java.lang.String" value="nombre totale des patients inscrit :"/>
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">

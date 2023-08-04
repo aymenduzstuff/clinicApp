@@ -187,7 +187,6 @@ void deleteClient(DBconnection dBConnection ,int id) throws SQLException {
         PreparedStatement ptst = con.prepareStatement(sql);
         
         ptst.executeUpdate();
-        JOptionPane.showMessageDialog(null, "client Deleted ");
         con.close();
         
         sqlAlert(0 , "patient supprime " , 3);
@@ -199,7 +198,7 @@ void deleteAdmin(DBconnection dBConnection ,int id) throws SQLException {
         PreparedStatement ptst = con.prepareStatement(sql);
         
         ptst.executeUpdate();
-        JOptionPane.showMessageDialog(null, "administrateur supprimé ");
+        sqlAlert(0, "administrateur supprimé " , 3);
         con.close();
         
     }
@@ -310,7 +309,7 @@ void deleteAdmin(DBconnection dBConnection ,int id) throws SQLException {
         
         ptst.executeUpdate();
         
-        JOptionPane.showMessageDialog(null, "new operation added");
+        sqlAlert(0 , "nouvelle acte dentaire ajoutée" , 3);
         con.close();
     }
 
@@ -370,7 +369,12 @@ void deleteAdmin(DBconnection dBConnection ,int id) throws SQLException {
                     ResultSet rs = st.executeQuery(query);
                     
                     if(rs.next()){
-                        result[i] = rs.getString("result") ;
+                        if(rs.getString("result") == null){
+                            result[i] = "0" ;
+                        }else{
+                            result[i] = rs.getString("result") ;
+                        }
+                        
                     }else{
                         result[i] = "0" ;
                     
@@ -423,7 +427,7 @@ void deleteAdmin(DBconnection dBConnection ,int id) throws SQLException {
         
         Connection con =  dbc.getConnection() ;
         String[] result = null;
-        String mysql_query = "SELECT id , nom_act , cout , IFNULL(description, '---') as descr FROM clinicdatabase.acts_dentaire WHERE nom_act LIKE '%"+string+"%' ";
+        String mysql_query = "SELECT id , nom_act , cout , IFNULL(description, '---') as descr FROM clinicdatabase.acts_dentaire WHERE nom_act LIKE '%"+string+"%' AND nom_act NOT LIKE '%acte suppri%'  ";
         try {
                 Statement st = con.createStatement();
                 ResultSet rs = st.executeQuery(mysql_query);
@@ -561,7 +565,7 @@ void deleteAdmin(DBconnection dBConnection ,int id) throws SQLException {
             maxDateString = "CURDATE() + INTERVAL 1 DAY";
         }else{
             minDateString = "'"+minDate.format(formatter)+"'" ;
-            maxDateString = "'"+maxDate.format(formatter)+"'";
+            maxDateString = "'"+maxDate.format(formatter)+"' + INTERVAL 1 DAY ";
         
         }
         
@@ -758,8 +762,7 @@ String[] getAdminsResults(DBconnection dbc ) throws SQLException {
         String sql = "UPDATE consultations SET termine = 1 WHERE id = "+visit_id+";"; 
         PreparedStatement ptst = con.prepareStatement(sql);
         ptst.executeUpdate();
-        
-        JOptionPane.showMessageDialog(null, "visit set to termine ");
+        sqlAlert(0 , "visit set to termine" , 3 );
         con.close();
     }
 
@@ -1032,7 +1035,7 @@ Seance currentSeance(DBconnection dbc, int id_cons , int id) throws SQLException
         
         con.close();
         
-        sqlAlert(0 , "acte dentaire supprimé !" , 3);
+        sqlAlert(0 , "operation supprimé !" , 3);
     }
 Consultation currentConsultation(DBconnection dbc, int id_cons ) throws SQLException {
         Connection con =  dbc.getConnection() ;

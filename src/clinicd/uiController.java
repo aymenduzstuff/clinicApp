@@ -290,6 +290,10 @@ void paintRightsTable(JTable table  , String[] searchResult ){
     }
 
     void paintApercus(String[] results, JLabel apercu1, JLabel apercu2, JLabel apercu3, JLabel apercu4, JLabel apercu5, JLabel apercu6, JLabel apercu7) {
+        
+        for(String result : results){
+            System.out.println(result);
+        }
         apercu1.setText(results[0]);
         apercu2.setText(results[1]);
         apercu3.setText(results[2]);
@@ -303,10 +307,10 @@ void paintRightsTable(JTable table  , String[] searchResult ){
         DecimalFormat decimalFormat = new DecimalFormat("#0.0");
         
         apercu5.setText(String.valueOf(decimalFormat.format(percentage))+"%");
-        apercu6.setText(results[5]);
+        apercu6.setText(results[5] + " DA");
         int avgSpend = Integer.parseInt(results[5])/ Integer.parseInt(results[6]);
         
-        apercu7.setText(String.valueOf(avgSpend));
+        apercu7.setText(String.valueOf(avgSpend)+ " DA");
         
        
     }

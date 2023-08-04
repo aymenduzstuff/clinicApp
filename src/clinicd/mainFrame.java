@@ -935,7 +935,15 @@ public class mainFrame extends javax.swing.JFrame {
             new String [] {
                 "id", "nom", "prenom", "adresse", "numero tel", "date naissance"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         clientsTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 clientsTableMouseClicked(evt);
@@ -947,8 +955,6 @@ public class mainFrame extends javax.swing.JFrame {
             clientsTable.getColumnModel().getColumn(1).setPreferredWidth(200);
             clientsTable.getColumnModel().getColumn(1).setMaxWidth(320);
             clientsTable.getColumnModel().getColumn(2).setMaxWidth(80);
-            clientsTable.getColumnModel().getColumn(4).setHeaderValue("numero tel");
-            clientsTable.getColumnModel().getColumn(5).setHeaderValue("date naissance");
         }
 
         jLabel48.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/arrow.png"))); // NOI18N
@@ -1620,7 +1626,15 @@ public class mainFrame extends javax.swing.JFrame {
             new String [] {
                 "seance", "date", "montat", "saisi par", "remarque"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         seancesTable.setRowHeight(30);
         seancesTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1851,9 +1865,16 @@ public class mainFrame extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         usersTable.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.default.pressedBackground"));
@@ -1972,7 +1993,7 @@ public class mainFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel20.setText("acte dentaire");
+        jLabel20.setText("acte dentaire :");
 
         jLabel27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/addSq.png"))); // NOI18N
         jLabel27.setName("gestionActs"); // NOI18N
@@ -2032,7 +2053,7 @@ public class mainFrame extends javax.swing.JFrame {
                 .addContainerGap(27, Short.MAX_VALUE))
         );
 
-        jLabel64.setText("montant ");
+        jLabel64.setText("montant :");
 
         priceTF.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         priceTF.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
@@ -2053,7 +2074,7 @@ public class mainFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel89.setText("terminé");
+        jLabel89.setText("terminé :");
 
         javax.swing.GroupLayout newVisitSectLayout = new javax.swing.GroupLayout(newVisitSect);
         newVisitSect.setLayout(newVisitSectLayout);
@@ -2061,8 +2082,8 @@ public class mainFrame extends javax.swing.JFrame {
             newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(newVisitSectLayout.createSequentialGroup()
                 .addGap(100, 100, 100)
-                .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newVisitSectLayout.createSequentialGroup()
+                .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(newVisitSectLayout.createSequentialGroup()
                         .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(operationsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(newVisitSectLayout.createSequentialGroup()
@@ -2070,22 +2091,22 @@ public class mainFrame extends javax.swing.JFrame {
                                 .addComponent(jLabel20)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel27)))
-                        .addGap(56, 56, 56)
                         .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(priceTF, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newVisitSectLayout.createSequentialGroup()
+                            .addGroup(newVisitSectLayout.createSequentialGroup()
+                                .addGap(66, 66, 66)
+                                .addComponent(priceTF, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel23)
+                                    .addGroup(newVisitSectLayout.createSequentialGroup()
+                                        .addComponent(jLabel89)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(termineRadio))))
+                            .addGroup(newVisitSectLayout.createSequentialGroup()
+                                .addGap(90, 90, 90)
                                 .addComponent(jLabel64)
-                                .addGap(37, 37, 37)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newVisitSectLayout.createSequentialGroup()
-                                .addComponent(termineRadio)
-                                .addGap(42, 42, 42))
-                            .addComponent(jLabel23)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newVisitSectLayout.createSequentialGroup()
-                                .addComponent(jLabel89)
-                                .addGap(29, 29, 29))))
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(69, 69, 69)
                 .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(savebtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2095,34 +2116,32 @@ public class mainFrame extends javax.swing.JFrame {
         newVisitSectLayout.setVerticalGroup(
             newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(newVisitSectLayout.createSequentialGroup()
-                .addGap(48, 48, 48)
+                .addGap(42, 42, 42)
                 .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(savebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(newVisitSectLayout.createSequentialGroup()
-                        .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(newVisitSectLayout.createSequentialGroup()
-                                .addGap(2, 2, 2)
-                                .addComponent(jLabel23)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel20)
+                                .addComponent(jLabel27))
+                            .addComponent(jLabel64))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(operationsComboBox)
+                            .addComponent(priceTF, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(8, 8, 8))
+                    .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(newVisitSectLayout.createSequentialGroup()
+                            .addComponent(jLabel23)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel89)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(termineRadio, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(newVisitSectLayout.createSequentialGroup()
-                                .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel64)
-                                    .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel20)
-                                        .addComponent(jLabel27)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(operationsComboBox)
-                                    .addComponent(priceTF, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(8, 8, 8)))
+                                .addComponent(termineRadio)))
+                        .addComponent(savebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(36, 36, 36)
                 .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
         operationsComboBox.setName("operationsComboBox");
@@ -2216,11 +2235,11 @@ public class mainFrame extends javax.swing.JFrame {
                         .addComponent(jLabel38)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(updatePrice, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(40, 40, 40)
                         .addComponent(jLabel24)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(termineradio1)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel90, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(69, 69, 69)
@@ -2826,7 +2845,15 @@ public class mainFrame extends javax.swing.JFrame {
             new String [] {
                 "id", "l'utilisateur", "gestion des admins", "gestion des actes dentaires", "gestion des patients ", "modification / suppression des visites", "voir les apercus statistiques"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         rightsTable.setBackground(new java.awt.Color(242, 242, 242));
         rightsTable.setShowVerticalLines(true);
         rightsTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -2847,35 +2874,36 @@ public class mainFrame extends javax.swing.JFrame {
         adminsPanel.setLayout(adminsPanelLayout);
         adminsPanelLayout.setHorizontalGroup(
             adminsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, adminsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel76, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel78)
-                .addGap(60, 60, 60)
-                .addComponent(jLabel77, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59)
-                .addComponent(jLabel79, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(130, 130, 130))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, adminsPanelLayout.createSequentialGroup()
-                .addGap(150, 150, 150)
-                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 1162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(118, 118, 118))
+            .addGroup(adminsPanelLayout.createSequentialGroup()
+                .addGroup(adminsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(adminsPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel76, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel78)
+                        .addGap(60, 60, 60)
+                        .addComponent(jLabel77, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(59, 59, 59)
+                        .addComponent(jLabel79, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(adminsPanelLayout.createSequentialGroup()
+                        .addGap(108, 108, 108)
+                        .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 1162, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(1472, Short.MAX_VALUE))
         );
         adminsPanelLayout.setVerticalGroup(
             adminsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(adminsPanelLayout.createSequentialGroup()
-                .addGap(59, 59, 59)
-                .addGroup(adminsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(67, 67, 67)
+                .addGroup(adminsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel76, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(adminsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(adminsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel77, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel79))
                         .addComponent(jLabel78, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(32, 32, 32)
+                .addGap(35, 35, 35)
                 .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(167, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
 
         jLabel49.setToolTipText("modifier des informations");
@@ -2942,7 +2970,7 @@ public class mainFrame extends javax.swing.JFrame {
 
         jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel81.setText("nombre des patients inscrit :");
+        jLabel81.setText("nombre totale des patients inscrit :");
         jPanel8.add(jLabel81, new org.netbeans.lib.awtextra.AbsoluteConstraints(108, 26, -1, -1));
 
         jLabel82.setText("nombre des procédures effectuées :");
@@ -3134,7 +3162,7 @@ public class mainFrame extends javax.swing.JFrame {
                 Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
-            JOptionPane.showMessageDialog(null, "Access Denied.\nYou do not have the right to use this functionality.",
+            JOptionPane.showMessageDialog(null, "Accès refusé.\n Vous n'avez pas le droit d'utiliser cette fonctionnalité.",
                 "Access Denied", JOptionPane.ERROR_MESSAGE);
         }
         
@@ -3154,7 +3182,7 @@ public class mainFrame extends javax.swing.JFrame {
                 Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
-            JOptionPane.showMessageDialog(null, "Access Denied.\nYou do not have the right to use this functionality.",
+            JOptionPane.showMessageDialog(null, "Accès refusé.\n Vous n'avez pas le droit d'utiliser cette fonctionnalité.",
                 "Access Denied", JOptionPane.ERROR_MESSAGE);
         }
         
@@ -3174,7 +3202,7 @@ public class mainFrame extends javax.swing.JFrame {
                Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
            }
         }else{
-            JOptionPane.showMessageDialog(null, "Access Denied.\nYou do not have the right to use this functionality.",
+            JOptionPane.showMessageDialog(null, "Accès refusé.\n Vous n'avez pas le droit d'utiliser cette fonctionnalité.",
                 "Access Denied", JOptionPane.ERROR_MESSAGE);
         }
         
@@ -3192,7 +3220,7 @@ public class mainFrame extends javax.swing.JFrame {
                 Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
-            JOptionPane.showMessageDialog(null, "Access Denied.\nYou do not have the right to use this functionality.",
+            JOptionPane.showMessageDialog(null, "Accès refusé.\n Vous n'avez pas le droit d'utiliser cette fonctionnalité.",
                 "Access Denied", JOptionPane.ERROR_MESSAGE);
         }
         
@@ -3211,7 +3239,7 @@ public class mainFrame extends javax.swing.JFrame {
             }
 
         }else{
-            JOptionPane.showMessageDialog(null, "Access Denied.\nYou do not have the right to use this functionality.",
+            JOptionPane.showMessageDialog(null, "Accès refusé.\n Vous n'avez pas le droit d'utiliser cette fonctionnalité.",
                 "Access Denied", JOptionPane.ERROR_MESSAGE);
         }
         
@@ -3261,13 +3289,7 @@ public class mainFrame extends javax.swing.JFrame {
             Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
         } 
         
-        try {
-
-                            
-            } catch (Exception e) {
-                System.out.println(e.toString());
-                System.out.println("error in mouse clicked ...");
-            }
+        
         
         System.out.println("notes : " +curClient.notes );
         if(curClient.notes== null || "".equals(curClient.notes) ){
@@ -3351,14 +3373,26 @@ public class mainFrame extends javax.swing.JFrame {
         }
         
         //setting the table 
+        DefaultTableModel usrmodel = (DefaultTableModel) usersTable.getModel();
+        int selectedIndex = usersTable.getSelectedRow();
+
         try {
-            String[] searchResult = UQM.getVisitsResults(dbc , model.getValueAt(selectedRowIndex, 0).toString() , 2);
-            UIC.paintVistsTable( visitsTable , searchResult  );
+            curClient = UQM.currentClient(dbc, Integer.parseInt(usrmodel.getValueAt(selectedIndex, 0).toString()));
+        } catch (SQLException ex) {
+            Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        /*setting up the visits table */
+        String[] searchResult = new String[6];
+
+        try {
+            searchResult = UQM.getVisitsResults(dbc, usrmodel.getValueAt(selectedIndex, 0).toString(), 2);
+            UIC.paintVistsTable(visitsTable, searchResult);
 
         } catch (SQLException ex) {
             Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         
         UIC.resetVisitPanel( updatePrice ,termineradio1 , notesTextAreaNV1 , teethpanel , babyTeethPanel , allTeethPanel  );
         
@@ -3368,6 +3402,7 @@ public class mainFrame extends javax.swing.JFrame {
     private void visitsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_visitsTableMouseClicked
         DefaultTableModel model = (DefaultTableModel) visitsTable.getModel();
         int selectedRowIndex = visitsTable.getSelectedRow();
+        
         System.out.println("the search panell was created  : x " + searchPanel.getLocation().x  +" y "+ searchPanel.getLocation().y + searchPanel.isVisible());
         if(model.getValueAt(selectedRowIndex, 6).toString().equals("1")){
             visitTypeCards.removeAll();
@@ -3866,7 +3901,7 @@ public class mainFrame extends javax.swing.JFrame {
 
             
         }else{
-            JOptionPane.showMessageDialog(null, "Access Denied.\nYou do not have the right to use this functionality.",
+            JOptionPane.showMessageDialog(null, "Accès refusé.\n Vous n'avez pas le droit d'utiliser cette fonctionnalité.",
                 "Access Denied", JOptionPane.ERROR_MESSAGE);
         }
         
@@ -4316,7 +4351,7 @@ public class mainFrame extends javax.swing.JFrame {
                 System.out.println(row.toString());
             }
         }else{
-            JOptionPane.showMessageDialog(null, "Access Denied.\nYou do not have the right to use this functionality.",
+            JOptionPane.showMessageDialog(null, "Accès refusé.\n Vous n'avez pas le droit d'utiliser cette fonctionnalité.",
                 "Access Denied", JOptionPane.ERROR_MESSAGE);
         }
         UIC.resetBackgroundColor(mainContainer);
@@ -4348,7 +4383,7 @@ public class mainFrame extends javax.swing.JFrame {
                 Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
-            JOptionPane.showMessageDialog(null, "Access Denied.\nYou do not have the right to use this functionality.",
+            JOptionPane.showMessageDialog(null, "Accès refusé.\n Vous n'avez pas le droit d'utiliser cette fonctionnalité.",
                 "Access Denied", JOptionPane.ERROR_MESSAGE);
         }
         
@@ -4386,7 +4421,7 @@ public class mainFrame extends javax.swing.JFrame {
             
             
         }else{
-            JOptionPane.showMessageDialog(null, "Access Denied.\nYou do not have the right to use this functionality.",
+            JOptionPane.showMessageDialog(null, "Accès refusé.\n Vous n'avez pas le droit d'utiliser cette fonctionnalité.",
                 "Access Denied", JOptionPane.ERROR_MESSAGE);
         }
         
@@ -4416,6 +4451,13 @@ public class mainFrame extends javax.swing.JFrame {
                     Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } 
+             String[] searchResult = new String[20];
+            try {
+                searchResult = UQM.getDetailedClientsResults(dbc, clientsSearch.getText());
+                UIC.paintPatientsTable(clientsTable, searchResult);
+            } catch (SQLException ex) {
+                Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
         }        
     }//GEN-LAST:event_jLabel51MouseClicked
@@ -4487,6 +4529,14 @@ public class mainFrame extends javax.swing.JFrame {
                     Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            String[] searchResult = new String[6];
+            try {
+                searchResult = UQM.getactsResults(dbc, actsSearch.getText());
+                System.out.println("**" + actsSearch.getText() + "**");
+                UIC.paintActsTable(actsTable, searchResult);
+            } catch (SQLException ex) {
+                Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
         }                // TODO add your handling code here:
     }//GEN-LAST:event_jLabel74MouseClicked
@@ -4529,7 +4579,7 @@ public class mainFrame extends javax.swing.JFrame {
                 }
             }
         }else{
-            JOptionPane.showMessageDialog(null, "Access Denied.\nYou do not have the right to use this functionality.",
+            JOptionPane.showMessageDialog(null, "Accès refusé.\n Vous n'avez pas le droit d'utiliser cette fonctionnalité.",
                 "Access Denied", JOptionPane.ERROR_MESSAGE);
         }
         
@@ -4542,14 +4592,18 @@ public class mainFrame extends javax.swing.JFrame {
             if (seancesTable.getSelectedRow() == -1) {
                 JOptionPane.showMessageDialog(null, "selectioner une seance");
             } else {
-                try {
-                    UQM.deleteSeance(dbc, currCons.id, currSeance.id);
-                } catch (SQLException ex) {
-                    Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                int answer = confirmationMsg("êtes-vous sûr de vouloir supprimer ce seance");
+                if (answer == JOptionPane.YES_OPTION) {
+                    try {
+                        UQM.deleteSeance(dbc, currCons.id, currSeance.id);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
+                
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Access Denied.\nYou do not have the right to use this functionality.",
+            JOptionPane.showMessageDialog(null, "Accès refusé.\n Vous n'avez pas le droit d'utiliser cette fonctionnalité.",
                 "Access Denied", JOptionPane.ERROR_MESSAGE);
         }
         
@@ -4562,14 +4616,25 @@ public class mainFrame extends javax.swing.JFrame {
             if (visitsTable1.getSelectedRow() == -1) {
                 JOptionPane.showMessageDialog(null, "selectioner une consultation");
             } else {
-                try {
-                    UQM.deleteConsultation(dbc, currCons.id);
-                } catch (SQLException ex) {
-                    Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                int answer = confirmationMsg("êtes-vous sûr de vouloir supprimer cette operation");
+                if (answer == JOptionPane.YES_OPTION) {
+                    try {
+                        UQM.deleteConsultation(dbc, currCons.id);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    String[] searchResult = new String[8];
+
+                    try {
+                        searchResult = UQM.getDetailedVisitsResults(dbc, nomSearchField.getText(), prenomSearchField.getText(), actDentSearchField.getText(), minPriceSpinner.getValue().toString(), maxPriceSpinner.getValue().toString(), minDatePicker.getDate(), maxDatePicker.getDate(), termineCombo.getSelectedIndex());
+                        UIC.paintDetailedVisit(visitsTable1, searchResult, searchTypePanel, consultationsPanel);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } 
             }
         }else{
-            JOptionPane.showMessageDialog(null, "Access Denied.\nYou do not have the right to use this functionality.",
+            JOptionPane.showMessageDialog(null, "Accès refusé.\n Vous n'avez pas le droit d'utiliser cette fonctionnalité.",
                 "Access Denied", JOptionPane.ERROR_MESSAGE);
         }
         
@@ -4609,9 +4674,17 @@ public class mainFrame extends javax.swing.JFrame {
                 } catch (SQLException ex) {
                     Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                String[] searchResult = new String[8];
+
+                try {
+                    searchResult = UQM.getDetailedVisitsResults(dbc, nomSearchField.getText(), prenomSearchField.getText(), actDentSearchField.getText(), minPriceSpinner.getValue().toString(), maxPriceSpinner.getValue().toString(), minDatePicker.getDate(), maxDatePicker.getDate(), termineCombo.getSelectedIndex());
+                    UIC.paintDetailedVisit(visitsTable1, searchResult, searchTypePanel, consultationsPanel);
+                } catch (SQLException ex) {
+                    Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Access Denied.\nYou do not have the right to use this functionality.",
+            JOptionPane.showMessageDialog(null, "Accès refusé.\n Vous n'avez pas le droit d'utiliser cette fonctionnalité.",
                 "Access Denied", JOptionPane.ERROR_MESSAGE);
         }
         
@@ -4623,10 +4696,31 @@ public class mainFrame extends javax.swing.JFrame {
             try {
 
                 UQM.modifyConsultation(dbc, currCons.id , currCons.client_id, currCons.act_dent_id, null , 0);
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            DefaultTableModel model = (DefaultTableModel) usersTable.getModel();
+            int selectedRowIndex = usersTable.getSelectedRow();
+
+            try {
+                curClient = UQM.currentClient(dbc, Integer.parseInt(model.getValueAt(selectedRowIndex, 0).toString()));
+            } catch (SQLException ex) {
+                Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            /*setting up the visits table */
+            String[] searchResult = new String[6];
+
+            try {
+                searchResult = UQM.getVisitsResults(dbc, model.getValueAt(selectedRowIndex, 0).toString(), 2);
+                UIC.paintVistsTable(visitsTable, searchResult);
 
             } catch (SQLException ex) {
                 Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+        
         }
     }//GEN-LAST:event_doneSectMouseClicked
 
@@ -4661,10 +4755,18 @@ public class mainFrame extends javax.swing.JFrame {
                Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
            }
         }else{
-            JOptionPane.showMessageDialog(null, "Access Denied.\nYou do not have the right to use this functionality.",
+            JOptionPane.showMessageDialog(null, "Accès refusé.\n Vous n'avez pas le droit d'utiliser cette fonctionnalité.",
                 "Access Denied", JOptionPane.ERROR_MESSAGE);
         }
-        
+    
+        String[] searchResults = new String[3];
+        try {
+            searchResults = UQM.getAdminsResults(dbc);
+            UIC.paintRightsTable(rightsTable, searchResults);
+        } catch (SQLException ex) {
+            Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_jLabel78MouseClicked
 
     private void jLabel78MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel78MouseEntered
@@ -4684,9 +4786,18 @@ public class mainFrame extends javax.swing.JFrame {
                 }
             }
             
+            
+            String[] searchResults = new String[3];
+            try {
+                searchResults = UQM.getAdminsResults(dbc) ;
+                UIC.paintRightsTable(rightsTable, searchResults);
+            } catch (SQLException ex) {
+                Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
 
         }else{
-            JOptionPane.showMessageDialog(null, "Access Denied.\nYou do not have the right to use this functionality.",
+            JOptionPane.showMessageDialog(null, "Accès refusé.\n Vous n'avez pas le droit d'utiliser cette fonctionnalité.",
                 "Access Denied", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jLabel79MouseClicked
