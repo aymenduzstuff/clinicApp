@@ -762,7 +762,7 @@ String[] getAdminsResults(DBconnection dbc ) throws SQLException {
         String sql = "UPDATE consultations SET termine = 1 WHERE id = "+visit_id+";"; 
         PreparedStatement ptst = con.prepareStatement(sql);
         ptst.executeUpdate();
-        sqlAlert(0 , "visit set to termine" , 3 );
+        sqlAlert(0 , "visite définie comme terminée" , 3 );
         con.close();
     }
 
@@ -1190,11 +1190,12 @@ Consultation currentConsultation(DBconnection dbc, int id_cons ) throws SQLExcep
         JOptionPane optionPane = new JOptionPane(msg,JOptionPane.INFORMATION_MESSAGE);
         final JDialog dialog = optionPane.createDialog("Message");
         dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        
         if(type == 0){
-            Icon icon = new ImageIcon("src\\images\\done.png");
+            Icon icon = new ImageIcon("src/images/done.png");
             optionPane.setIcon(icon);
         }else if(type == 1){
-            Icon icon = new ImageIcon("src\\images\\warning.png");
+            Icon icon = new ImageIcon("src/images/warning.png");
             optionPane.setIcon(icon);
         }
         
