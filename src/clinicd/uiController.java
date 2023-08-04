@@ -7,10 +7,12 @@ package clinicd;
 import com.github.lgooddatepicker.components.DatePicker;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.text.DecimalFormat;
 import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -183,8 +185,8 @@ public class uiController {
                 }
                 
             } catch (Exception e) {
-                System.out.println(e.toString());
-                System.out.println("error when painting seances ");
+                e.printStackTrace();
+                System.err.println("error when painting seances ");
             }
     }
     void paintModifClient(Client modClient, JTextField clientNameField, JTextField clientFNameField, JTextField clientPhoneField, JTextField clientAdressField, JTextField ageField, DatePicker clientBD, JTextArea clientTextArea, JButton modClientBtn, JButton viderBtn, JButton sauvegarderBtn) {
@@ -308,6 +310,62 @@ void paintRightsTable(JTable table  , String[] searchResult ){
         
        
     }
+
+    void paintUsersTable(JTable usersTable, String[] searchResult) {
     
+        DefaultTableModel d = (DefaultTableModel) usersTable.getModel();
+        d.setRowCount(0);
+        String[] searchResultRow = null;
+
+        for (int i = 0; i < searchResult.length; i++) {
+            searchResultRow = searchResult[i].split(":::");
+            Vector v2 = new Vector();
+
+            v2.add(Integer.parseInt(searchResultRow[0]));
+            v2.add(searchResultRow[1]);
+            v2.add(searchResultRow[2]);
+
+            d.addRow(v2);
+        }
+
+    }
+
+    void resetTeethPanel(JPanel teethpanel, JPanel babyTeethPanel) {
+        
+        Component[] components = teethpanel.getComponents();
+        Component[] otherComponents = babyTeethPanel.getComponents();
+
+        // make one big array to contain all components 
+        int totalSize = components.length + otherComponents.length;
+        Component[] allComponents = new Component[totalSize];
+        System.arraycopy(components, 0, allComponents, 0, components.length);
+        System.arraycopy(otherComponents, 0, allComponents, components.length, otherComponents.length);
+
+        
+        for (Component component : allComponents) {
+            if ("9999999".equals(component.getName())) {
+                continue;
+            }
+            component.setVisible(false);
+            System.out.println("all components :" + component.getName());
+        }
+    }
     
+    void resetVisitPanel( JSpinner priceTF, JCheckBox termineRadio, JTextArea notesTextArea, JPanel teethpanel, JPanel babyTeethPanel, JPanel allTeethPanel){
+        priceTF.setValue(0);
+        termineRadio.setSelected(false);
+        notesTextArea.setText("                                \n" +
+"                                   laisser une remarque");
+        Font font = new Font("Segoe UI", Font.BOLD, 14);
+        notesTextArea.setFont(font);
+        notesTextArea.setForeground(new Color(204,204,204));
+        resetTeethPanel(teethpanel , babyTeethPanel);
+        
+        allTeethPanel.removeAll();
+        allTeethPanel.add(teethpanel);
+        allTeethPanel.repaint();
+        allTeethPanel.revalidate();
+        
+    }
+
 }

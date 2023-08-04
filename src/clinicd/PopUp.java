@@ -113,6 +113,8 @@ public class PopUp extends javax.swing.JFrame {
         adminSaveBtn = new javax.swing.JButton();
         visitsRight = new javax.swing.JRadioButton();
         adminMajBtn = new javax.swing.JButton();
+        checkUser = new javax.swing.JLabel();
+        checkPass = new javax.swing.JLabel();
         newOpPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -125,6 +127,8 @@ public class PopUp extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         operationDescription = new javax.swing.JTextArea();
         updateActBtn = new javax.swing.JButton();
+        checkAct = new javax.swing.JLabel();
+        checkPrice = new javax.swing.JLabel();
         newClientPanel = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -170,6 +174,18 @@ public class PopUp extends javax.swing.JFrame {
 
         jLabel4.setText("utilisateur");
 
+        usernameField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                usernameFieldKeyReleased(evt);
+            }
+        });
+
+        passwordField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                passwordFieldKeyReleased(evt);
+            }
+        });
+
         jLabel5.setText("mot de pass");
 
         jLabel6.setText("responsabilites :");
@@ -188,6 +204,11 @@ public class PopUp extends javax.swing.JFrame {
         voirApercusRight.setText("consultation des appercues statistiques ");
 
         adminDiscardBtn.setText("réinitialiser");
+        adminDiscardBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adminDiscardBtnActionPerformed(evt);
+            }
+        });
 
         adminSaveBtn.setText("sauvegarder");
         adminSaveBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -210,6 +231,14 @@ public class PopUp extends javax.swing.JFrame {
             }
         });
 
+        checkUser.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        checkUser.setForeground(new java.awt.Color(255, 51, 51));
+        checkUser.setText("*");
+
+        checkPass.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        checkPass.setForeground(new java.awt.Color(255, 51, 51));
+        checkPass.setText("*");
+
         javax.swing.GroupLayout newAdminPanelLayout = new javax.swing.GroupLayout(newAdminPanel);
         newAdminPanel.setLayout(newAdminPanelLayout);
         newAdminPanelLayout.setHorizontalGroup(
@@ -221,21 +250,26 @@ public class PopUp extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(passwordField)
-                    .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(newAdminPanelLayout.createSequentialGroup()
+                        .addGroup(newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(passwordField)
+                            .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(checkUser, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(checkPass, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(voirApercusRight)
+                    .addComponent(gestionPatientsRight)
+                    .addComponent(gestionActesRight)
+                    .addComponent(gestionAdminsRight)
+                    .addComponent(visitsRight))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newAdminPanelLayout.createSequentialGroup()
                 .addContainerGap(108, Short.MAX_VALUE)
                 .addGroup(newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newAdminPanelLayout.createSequentialGroup()
                         .addGroup(newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(voirApercusRight)
-                                .addComponent(gestionPatientsRight)
-                                .addComponent(gestionActesRight)
-                                .addComponent(gestionAdminsRight)
-                                .addComponent(visitsRight))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newAdminPanelLayout.createSequentialGroup()
                                 .addComponent(adminDiscardBtn)
                                 .addGap(75, 75, 75)
@@ -254,24 +288,28 @@ public class PopUp extends javax.swing.JFrame {
                 .addGap(52, 52, 52)
                 .addGroup(newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel4)
+                    .addComponent(checkUser))
                 .addGap(18, 18, 18)
                 .addGroup(newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel5)
-                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(checkPass)))
                 .addGap(45, 45, 45)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                .addComponent(gestionAdminsRight)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(gestionActesRight)
-                .addGap(9, 9, 9)
-                .addComponent(gestionPatientsRight)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(visitsRight, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addGroup(newAdminPanelLayout.createSequentialGroup()
+                        .addComponent(gestionAdminsRight)
+                        .addGap(3, 3, 3)
+                        .addComponent(gestionActesRight)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(gestionPatientsRight)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(visitsRight, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(voirApercusRight)
-                .addGap(24, 24, 24)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addComponent(adminMajBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(newAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -280,6 +318,10 @@ public class PopUp extends javax.swing.JFrame {
                 .addGap(25, 25, 25))
         );
 
+        gestionActesRight.setSelected(true);
+        gestionPatientsRight.setSelected(true);
+        voirApercusRight.setSelected(true);
+        visitsRight.setSelected(true);
         adminMajBtn.setVisible(false) ;
 
         popUpParentPanel.add(newAdminPanel, "card3");
@@ -293,8 +335,24 @@ public class PopUp extends javax.swing.JFrame {
                 operationNameFieldActionPerformed(evt);
             }
         });
+        operationNameField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                operationNameFieldKeyReleased(evt);
+            }
+        });
 
         jLabel14.setText("montant a charger");
+
+        operationPriceSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                operationPriceSpinnerStateChanged(evt);
+            }
+        });
+        operationPriceSpinner.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                operationPriceSpinnerFocusGained(evt);
+            }
+        });
 
         saveActBtn.setText("sauvegarder");
         saveActBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -319,14 +377,18 @@ public class PopUp extends javax.swing.JFrame {
             }
         });
 
+        checkAct.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        checkAct.setForeground(new java.awt.Color(255, 0, 51));
+        checkAct.setText("*");
+
+        checkPrice.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        checkPrice.setForeground(new java.awt.Color(255, 0, 51));
+        checkPrice.setText("*");
+
         javax.swing.GroupLayout newOpPanelLayout = new javax.swing.GroupLayout(newOpPanel);
         newOpPanel.setLayout(newOpPanelLayout);
         newOpPanelLayout.setHorizontalGroup(
             newOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(newOpPanelLayout.createSequentialGroup()
-                .addGap(175, 175, 175)
-                .addComponent(jLabel1)
-                .addContainerGap(142, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newOpPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(newOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -337,17 +399,25 @@ public class PopUp extends javax.swing.JFrame {
                             .addComponent(jLabel13))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(newOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(operationNameField)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(newOpPanelLayout.createSequentialGroup()
                                 .addComponent(operationPriceSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGap(18, 18, 18)
+                                .addComponent(checkPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(newOpPanelLayout.createSequentialGroup()
+                                .addComponent(operationNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(checkAct, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(newOpPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(newOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(updateActBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
                             .addComponent(saveActBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(71, 71, 71))
+                .addGap(64, 64, 64))
+            .addGroup(newOpPanelLayout.createSequentialGroup()
+                .addGap(175, 175, 175)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         newOpPanelLayout.setVerticalGroup(
             newOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -357,11 +427,14 @@ public class PopUp extends javax.swing.JFrame {
                 .addGap(77, 77, 77)
                 .addGroup(newOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel13)
-                    .addComponent(operationNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37)
+                    .addGroup(newOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(operationNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(checkAct)))
+                .addGap(41, 41, 41)
                 .addGroup(newOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
-                    .addComponent(operationPriceSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(operationPriceSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(checkPrice))
                 .addGap(47, 47, 47)
                 .addGroup(newOpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel18)
@@ -370,7 +443,7 @@ public class PopUp extends javax.swing.JFrame {
                 .addComponent(saveActBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(updateActBtn)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         updateActBtn.setVisible(false);
@@ -680,30 +753,37 @@ public class PopUp extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void adminSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminSaveBtnActionPerformed
-        try {
-            int adminsRight = 0 , actesRight = 0 , patientsright = 0 , visitsright = 0 , voirapercusright = 0 ;
-            
-            if(gestionAdminsRight.isSelected()){
-                adminsRight = 1 ;
-            }
-            if(gestionActesRight.isSelected()){
-                actesRight = 1 ;
-            }
-            if(gestionPatientsRight.isSelected()){
-                patientsright = 1 ;
-            }
-            if(visitsRight.isSelected()){
-                visitsright = 1 ;
-            }
-            if(voirApercusRight.isSelected()){
-                voirapercusright = 1 ;
-            }
-            
-            UQM.insertAdmin(dBConnection, usernameField.getText() , passwordField.getText() , adminsRight , actesRight , patientsright , visitsright  , voirapercusright  );
-        } catch (SQLException ex) {
-            Logger.getLogger(PopUp.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
+        if (passwordField.getText().length() < 4) {
+            JOptionPane.showMessageDialog(rootPane, "le mot de pass doit contenir au minimum 4 lettres");
+        } else {
+            try {
+                int adminsRight = 0, actesRight = 0, patientsright = 0, visitsright = 0, voirapercusright = 0;
+                
+                if (gestionAdminsRight.isSelected()) {
+                    adminsRight = 1;
+                }
+                if (gestionActesRight.isSelected()) {
+                    actesRight = 1;
+                }
+                if (gestionPatientsRight.isSelected()) {
+                    patientsright = 1;
+                }
+                if (visitsRight.isSelected()) {
+                    visitsright = 1;
+                }
+                if (voirApercusRight.isSelected()) {
+                    voirapercusright = 1;
+                }
+                
+                UQM.insertAdmin(dBConnection, usernameField.getText(), passwordField.getText(), adminsRight, actesRight, patientsright, visitsright, voirapercusright);
+            
+            } catch (SQLException ex) {
+                Logger.getLogger(PopUp.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
         
         
     }//GEN-LAST:event_adminSaveBtnActionPerformed
@@ -895,6 +975,44 @@ public class PopUp extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_visitsRightActionPerformed
 
+    private void adminDiscardBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminDiscardBtnActionPerformed
+        usernameField.setText("");
+        passwordField.setText("");
+    }//GEN-LAST:event_adminDiscardBtnActionPerformed
+
+    private void usernameFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usernameFieldKeyReleased
+        if (!"".equals(usernameField.getText())) {
+            checkUser.setVisible(false);
+        } else {
+            checkUser.setVisible(true);
+        } 
+        
+    }//GEN-LAST:event_usernameFieldKeyReleased
+
+    private void passwordFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordFieldKeyReleased
+        if(!"".equals(passwordField.getText())){
+            checkPass.setVisible(false);
+        }else{
+            checkPass.setVisible(true);
+        }
+    }//GEN-LAST:event_passwordFieldKeyReleased
+
+    private void operationNameFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_operationNameFieldKeyReleased
+        if(!"".equals(operationNameField.getText())){
+            checkAct.setVisible(false);
+        }else{
+            checkAct.setVisible(true);
+        }
+    }//GEN-LAST:event_operationNameFieldKeyReleased
+
+    private void operationPriceSpinnerFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_operationPriceSpinnerFocusGained
+        checkPrice.setVisible(false);
+    }//GEN-LAST:event_operationPriceSpinnerFocusGained
+
+    private void operationPriceSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_operationPriceSpinnerStateChanged
+        checkPrice.setVisible(false);
+    }//GEN-LAST:event_operationPriceSpinnerStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -935,9 +1053,13 @@ public class PopUp extends javax.swing.JFrame {
     private javax.swing.JButton adminMajBtn;
     private javax.swing.JButton adminSaveBtn;
     private javax.swing.JTextField ageField;
+    private javax.swing.JLabel checkAct;
     private javax.swing.JLabel checkAge;
     private javax.swing.JLabel checkNom;
+    private javax.swing.JLabel checkPass;
     private javax.swing.JLabel checkPrenom;
+    private javax.swing.JLabel checkPrice;
+    private javax.swing.JLabel checkUser;
     private javax.swing.JTextField clientAdressField;
     private com.github.lgooddatepicker.components.DatePicker clientBD;
     private javax.swing.JTextField clientFNameField;

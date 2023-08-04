@@ -5,13 +5,13 @@
         <group>
             <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/DBconnection.java</file>
             <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/uiController.java</file>
-            <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/mainFrame.java</file>
             <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/PopUp.java</file>
             <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/Consultation.java</file>
             <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/UserQueryManager.java</file>
             <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/Admin.java</file>
             <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/Client.java</file>
             <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/ClinicD.java</file>
+            <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/conInterface.java</file>
             <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/login.java</file>
             <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/Seance.java</file>
         </group>

@@ -4,6 +4,8 @@
  */
 package clinicd;
 
+import javax.swing.UIManager;
+
 /**
  *
  * @author aymen
@@ -11,9 +13,9 @@ package clinicd;
 public class ClinicD {
 
   
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception  {
         DBconnection dBConnection = new DBconnection("jdbc:mysql://localhost:3306/clinicdatabase" ,"clinicdatabase" , "aymenhhh");
-        
+        UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         login adminLogin = new login(dBConnection);
         adminLogin.setVisible(true);
         
