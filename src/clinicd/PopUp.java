@@ -231,13 +231,13 @@ public class PopUp extends javax.swing.JFrame {
             }
         });
 
+        checkUser.setText("*");
         checkUser.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         checkUser.setForeground(new java.awt.Color(255, 51, 51));
-        checkUser.setText("*");
 
+        checkPass.setText("*");
         checkPass.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         checkPass.setForeground(new java.awt.Color(255, 51, 51));
-        checkPass.setText("*");
 
         javax.swing.GroupLayout newAdminPanelLayout = new javax.swing.GroupLayout(newAdminPanel);
         newAdminPanel.setLayout(newAdminPanelLayout);
@@ -377,13 +377,13 @@ public class PopUp extends javax.swing.JFrame {
             }
         });
 
+        checkAct.setText("*");
         checkAct.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         checkAct.setForeground(new java.awt.Color(255, 0, 51));
-        checkAct.setText("*");
 
+        checkPrice.setText("*");
         checkPrice.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         checkPrice.setForeground(new java.awt.Color(255, 0, 51));
-        checkPrice.setText("*");
 
         javax.swing.GroupLayout newOpPanelLayout = new javax.swing.GroupLayout(newOpPanel);
         newOpPanel.setLayout(newOpPanelLayout);
@@ -450,7 +450,7 @@ public class PopUp extends javax.swing.JFrame {
 
         popUpParentPanel.add(newOpPanel, "card2");
 
-        jLabel3.setText("nouveau client");
+        jLabel3.setText("nouveau patient");
 
         jLabel7.setText("nom");
 

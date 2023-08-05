@@ -3054,68 +3054,72 @@ public class mainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void savebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savebtnActionPerformed
-        String termine = "0" ;
-        if(currAct.cout < Integer.parseInt(priceTF.getValue().toString()) && !termineRadio.isSelected()){
-           
-           int answer = confirmationMsg("la somme payée est supérieure au coût de l'acte, voulez-vous la définir comme terminée");
-           if(answer == JOptionPane.YES_OPTION){
-               termine = "1" ;
-           }else{
-               termine = "0";
-           }
-        }
-        
-            
-        DefaultTableModel model = (DefaultTableModel)usersTable.getModel();
-        int selectedRowIndex = usersTable.getSelectedRow();
-        
-        String client_id  = model.getValueAt(selectedRowIndex, 0).toString();
-        //later use CURRENT_TIMESTAMP() 
-        String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
-        
-        if(termineRadio.isSelected()){
-            termine = "1" ;
-        }
-        String operation = String.valueOf(operationsComboBox.getSelectedItem())  ;
-        
-        int[] selectedTeeth1 =getVisibleComponentIndexes(teethpanel) ;
-        int[] selectedTeeth2 =getVisibleComponentIndexes(babyTeethPanel) ;
-        int[] allSelectedTeeth = new int[selectedTeeth1.length + selectedTeeth2.length];
-        
-        System.arraycopy(selectedTeeth1, 0, allSelectedTeeth, 0, selectedTeeth1.length);
-        System.arraycopy(selectedTeeth2, 0, allSelectedTeeth, selectedTeeth1.length, selectedTeeth2.length);
+        if (usersTable.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "selectioner d'abord un patient ");
+        } else {
 
+            String termine = "0";
+            if (currAct.cout < Integer.parseInt(priceTF.getValue().toString()) && !termineRadio.isSelected()) {
 
-        String remarque = notesTextAreaNV.getText();
-        System.out.println(remarque);
-        try {
-            String remarque_las9a = remarque.replaceAll("\\s", "") ;
-            System.out.println(remarque_las9a);
-            if(remarque_las9a.equals("laisseruneremarque")){
-                remarque = null ;
+                int answer = confirmationMsg("la somme payée est supérieure au coût de l'acte, voulez-vous la définir comme terminée");
+                if (answer == JOptionPane.YES_OPTION) {
+                    termine = "1";
+                } else {
+                    termine = "0";
+                }
             }
-            String operation_id = String.valueOf(UQM.getOperationIdByName(dbc ,  operation));
-            // parameter #5 is admin id
-            UQM.insertVisit(dbc, timeStamp , client_id, operation_id , String.valueOf(admin.id), priceTF.getValue().toString(), termine  , allSelectedTeeth , remarque );
-            System.out.println("visit added");
-            
+
+            DefaultTableModel model = (DefaultTableModel) usersTable.getModel();
+            int selectedRowIndex = usersTable.getSelectedRow();
+
+            String client_id = model.getValueAt(selectedRowIndex, 0).toString();
+            //later use CURRENT_TIMESTAMP() 
+            String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+
+            if (termineRadio.isSelected()) {
+                termine = "1";
+            }
+            String operation = String.valueOf(operationsComboBox.getSelectedItem());
+
+            int[] selectedTeeth1 = getVisibleComponentIndexes(teethpanel);
+            int[] selectedTeeth2 = getVisibleComponentIndexes(babyTeethPanel);
+            int[] allSelectedTeeth = new int[selectedTeeth1.length + selectedTeeth2.length];
+
+            System.arraycopy(selectedTeeth1, 0, allSelectedTeeth, 0, selectedTeeth1.length);
+            System.arraycopy(selectedTeeth2, 0, allSelectedTeeth, selectedTeeth1.length, selectedTeeth2.length);
+
+            String remarque = notesTextAreaNV.getText();
+            System.out.println(remarque);
             try {
-                String[] searchResult = UQM.getVisitsResults(dbc, model.getValueAt(selectedRowIndex, 0).toString(), 2);
-                UIC.paintVistsTable(visitsTable, searchResult);
+                String remarque_las9a = remarque.replaceAll("\\s", "");
+                System.out.println(remarque_las9a);
+                if (remarque_las9a.equals("laisseruneremarque")) {
+                    remarque = null;
+                }
+                String operation_id = String.valueOf(UQM.getOperationIdByName(dbc, operation));
+                // parameter #5 is admin id
+                UQM.insertVisit(dbc, timeStamp, client_id, operation_id, String.valueOf(admin.id), priceTF.getValue().toString(), termine, allSelectedTeeth, remarque);
+                System.out.println("visit added");
+
+                try {
+                    String[] searchResult = UQM.getVisitsResults(dbc, model.getValueAt(selectedRowIndex, 0).toString(), 2);
+                    UIC.paintVistsTable(visitsTable, searchResult);
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             } catch (SQLException ex) {
                 Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception e) {
-                e.printStackTrace();
+
             }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        UIC.resetVisitPanel( priceTF ,termineRadio , notesTextAreaNV , teethpanel , babyTeethPanel , allTeethPanel  );
-        
-        
+
+        UIC.resetVisitPanel(priceTF, termineRadio, notesTextAreaNV, teethpanel, babyTeethPanel, allTeethPanel);
+
+
     }//GEN-LAST:event_savebtnActionPerformed
     
     private void clientSearchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientSearchBarActionPerformed
@@ -3311,42 +3315,49 @@ public class mainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_updatePriceMouseClicked
 
     private void updatebtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updatebtnMouseClicked
-        
-        
-        DefaultTableModel model = (DefaultTableModel)visitsTable.getModel();
-        int selectedRowIndex = visitsTable.getSelectedRow();
-        
-        
-        
-        String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
-        
-       
-        String visit_id = model.getValueAt(selectedRowIndex, 0).toString(); 
-        String seance_nbr = model.getValueAt(selectedRowIndex, 4).toString();
-        //update consultatoin when : the stutus is 0 and 
-        String remarque = notesTextAreaNV.getText()  ;
-        if(remarque.replaceAll("\\s", "").equals("laisseruneremarque")){
-            remarque = null ;
-        }
-        
-        if("0".equals(model.getValueAt(selectedRowIndex, 6).toString())){
+        if (visitsTable.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "sélectionnez d'abord une operation");
+        } else {
+            DefaultTableModel model = (DefaultTableModel) visitsTable.getModel();
+            int selectedRowIndex = visitsTable.getSelectedRow();
+
+            String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+
+            String visit_id = model.getValueAt(selectedRowIndex, 0).toString();
+
+            String seance_nbr = model.getValueAt(selectedRowIndex, 4).toString();
+            //update consultatoin when : the stutus is 0 and 
+            String remarque = notesTextAreaNV1.getText();
+            System.out.println(remarque.replaceAll("\\s", ""));
+
+            if (remarque.replaceAll("\\s", "").equals("laisseruneremarque")) {
+                remarque = null;
+            }
+
             if (termineradio1.isSelected()) {
-                
-                try{
-                    // parameter #5 is admin id
+                try {
                     UQM.setVisitTermine(dbc, visit_id);
                     UQM.insertSeance(dbc, visit_id, seance_nbr, timeStamp, String.valueOf(admin.id), updatePrice.getValue().toString(), remarque);
-                    System.out.println("visit updated in interface");
+
                 } catch (SQLException ex) {
                     Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
-                    System.err.println("exception code : " + ex.getErrorCode() + "select an operation");
                 }
+            } else {
+                if (currAct.cout < Integer.parseInt(updatePrice.getValue().toString()) + Integer.parseInt(model.getValueAt(selectedRowIndex, 5).toString())) {
+                    int answer = confirmationMsg("la somme payée est supérieure au coût de l'acte, voulez-vous la définir comme terminée");
+                    if (answer == JOptionPane.YES_OPTION) {
 
-            } else if (currAct.cout < Integer.parseInt(updatePrice.getValue().toString()) + Integer.parseInt(model.getValueAt(selectedRowIndex, 5).toString()) && !termineradio1.isSelected()) {
-                int answer =  confirmationMsg("la somme payée est supérieure au coût de l'acte, voulez-vous la définir comme terminée");
-                if (answer == JOptionPane.YES_OPTION) {
-                    try {
-                        UQM.setVisitTermine(dbc, visit_id);
+                        try {
+                            // parameter #5 is admin id
+                            UQM.setVisitTermine(dbc, visit_id);
+                            UQM.insertSeance(dbc, visit_id, seance_nbr, timeStamp, String.valueOf(admin.id), updatePrice.getValue().toString(), remarque);
+                            System.out.println("visit updated in interface");
+                        } catch (SQLException ex) {
+                            Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                            System.out.println("exception code : " + ex.getErrorCode() + "select an operation");
+                        }
+
+                    } else {
                         try {
                             // parameter #5 is admin id
                             UQM.insertSeance(dbc, visit_id, seance_nbr, timeStamp, String.valueOf(admin.id), updatePrice.getValue().toString(), remarque);
@@ -3355,43 +3366,43 @@ public class mainFrame extends javax.swing.JFrame {
                             Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
                             System.out.println("exception code : " + ex.getErrorCode() + "select an operation");
                         }
-                    } catch (SQLException ex) {
-                        Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }else{
+
+                } else {
                     try {
                         // parameter #5 is admin id
-                        UQM.insertSeance(dbc, visit_id, seance_nbr, timeStamp, String.valueOf(admin.id), updatePrice.getValue().toString() , notesTextAreaNV.getText());
+                        UQM.insertSeance(dbc, visit_id, seance_nbr, timeStamp, String.valueOf(admin.id), updatePrice.getValue().toString(), remarque);
                         System.out.println("visit updated in interface");
                     } catch (SQLException ex) {
                         Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
                         System.out.println("exception code : " + ex.getErrorCode() + "select an operation");
                     }
                 }
+            }
 
-        }
+            //setting the table 
+            DefaultTableModel usrmodel = (DefaultTableModel) usersTable.getModel();
+            int selectedIndex = usersTable.getSelectedRow();
+
+            try {
+                curClient = UQM.currentClient(dbc, Integer.parseInt(usrmodel.getValueAt(selectedIndex, 0).toString()));
+            } catch (SQLException ex) {
+                Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            /*setting up the visits table */
+            String[] searchResult = new String[6];
+
+            try {
+                searchResult = UQM.getVisitsResults(dbc, usrmodel.getValueAt(selectedIndex, 0).toString(), 2);
+                UIC.paintVistsTable(visitsTable, searchResult);
+
+            } catch (SQLException ex) {
+                Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
-        //setting the table 
-        DefaultTableModel usrmodel = (DefaultTableModel) usersTable.getModel();
-        int selectedIndex = usersTable.getSelectedRow();
-
-        try {
-            curClient = UQM.currentClient(dbc, Integer.parseInt(usrmodel.getValueAt(selectedIndex, 0).toString()));
-        } catch (SQLException ex) {
-            Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        /*setting up the visits table */
-        String[] searchResult = new String[6];
-
-        try {
-            searchResult = UQM.getVisitsResults(dbc, usrmodel.getValueAt(selectedIndex, 0).toString(), 2);
-            UIC.paintVistsTable(visitsTable, searchResult);
-
-        } catch (SQLException ex) {
-            Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
 
         
         UIC.resetVisitPanel( updatePrice ,termineradio1 , notesTextAreaNV1 , teethpanel , babyTeethPanel , allTeethPanel  );
@@ -3782,8 +3793,8 @@ public class mainFrame extends javax.swing.JFrame {
     private void calLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_calLabelMouseClicked
         
         
-        ImageIcon icon1 = new ImageIcon("src\\images\\Cal.png");
-        ImageIcon icon2 = new ImageIcon("src\\images\\blackCal.png");
+        ImageIcon icon1 = new javax.swing.ImageIcon(getClass().getResource("/images/Cal.png")) ;
+        ImageIcon icon2 = new javax.swing.ImageIcon(getClass().getResource("/images/blackCal.png"));
         if(dateSearch.isVisible()){
             
             dateFieldPanel.removeAll();
@@ -5345,13 +5356,13 @@ public class adminsTableRenderer extends DefaultTableCellRenderer {
         if (column > 1) {
             if (value instanceof String && "0".equals(value)) {
                 // If the value is a string with value "0", return the PNG image
-                JLabel label = new JLabel(new ImageIcon("src\\images\\no.png"));
+                JLabel label = new JLabel(new javax.swing.ImageIcon(getClass().getResource("/images/no.png")));
                 label.setHorizontalAlignment(JLabel.CENTER);
                 return label;
 
             } else if (value instanceof String && "1".equals(value)) {
                 // If the value is a string with value "0", return the PNG image
-                JLabel label = new JLabel(new ImageIcon("src\\images\\yes.png"));
+                JLabel label = new JLabel(new javax.swing.ImageIcon(getClass().getResource("/images/yes.png")));
                 label.setHorizontalAlignment(JLabel.CENTER);
                 return label;
 
@@ -5367,7 +5378,7 @@ public class adminsTableRenderer extends DefaultTableCellRenderer {
 }
 
 int confirmationMsg(String msg){
-    ImageIcon icon = new ImageIcon("src\\images\\question-mark-40.png");
+    ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/images/question-mark-40.png"));
     Object[] options = { "Oui", "Non" };
     return JOptionPane.showOptionDialog(parentPanel, msg, "confirmation", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, icon , options , options[0] ) ;
            

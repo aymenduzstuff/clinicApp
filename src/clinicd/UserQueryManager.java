@@ -176,7 +176,7 @@ public class UserQueryManager {
         
         ptst.executeUpdate();
         
-        sqlAlert(0 , "patient inserted " ,3 );
+        sqlAlert(0 , "patient ajoute " ,3 );
         
         con.close();
     }
@@ -1192,10 +1192,10 @@ Consultation currentConsultation(DBconnection dbc, int id_cons ) throws SQLExcep
         dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         
         if(type == 0){
-            Icon icon = new ImageIcon("src/images/done.png");
+            ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/images/done.png"));
             optionPane.setIcon(icon);
         }else if(type == 1){
-            Icon icon = new ImageIcon("src/images/warning.png");
+            ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/images/warning.png"));
             optionPane.setIcon(icon);
         }
         
