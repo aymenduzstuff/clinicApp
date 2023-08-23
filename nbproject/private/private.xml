@@ -4,17 +4,21 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/DBconnection.java</file>
-            <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/uiController.java</file>
-            <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/mainFrame.java</file>
-            <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/PopUp.java</file>
-            <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/Consultation.java</file>
-            <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/UserQueryManager.java</file>
+            <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/act.java</file>
             <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/Admin.java</file>
             <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/images/done.png</file>
             <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/Client.java</file>
-            <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/ClinicD.java</file>
             <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/login.java</file>
             <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/Seance.java</file>
+            <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/uiController.java</file>
+            <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/mainFrame.java</file>
+            <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/roundEdgeRec.java</file>
+            <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/PopUp.java</file>
+            <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/Consultation.java</file>
+            <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/Facture.java</file>
+            <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/UserQueryManager.java</file>
+            <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/PopupListener.java</file>
+            <file>file:/C:/Users/sts/Documents/NetBeansProjects/clinicApp/src/clinicd/ClinicD.java</file>
         </group>
     </open-files>
 </project-private>

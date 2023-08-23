@@ -83,6 +83,7 @@ public class uiController {
                     v2.add(searchResultRow[4]);
                     v2.add(searchResultRow[5]);
                     v2.add(searchResultRow[6]);
+                    v2.add(searchResultRow[8]);
                     v2.add(searchResultRow[7]);
                     
                     
@@ -162,6 +163,40 @@ public class uiController {
             
         
     }
+    void paintFacturesTable(JTable Table, String[] searchResult ) {
+        
+         try {
+
+                DefaultTableModel d = (DefaultTableModel) Table.getModel();
+                d.setRowCount(0);
+                String[] searchResultRow = null;
+                
+                for (int i = 0; i<searchResult.length ; i++) {
+                    searchResultRow = searchResult[i].split(":::");
+                    Vector v2 = new Vector();
+
+                    v2.add(searchResultRow[0]);
+                    v2.add(searchResultRow[1]);
+                    v2.add(searchResultRow[2]);
+                    v2.add(searchResultRow[3]);
+                    v2.add(searchResultRow[4]);
+                    v2.add(searchResultRow[5]);
+                    
+                    
+                    
+                    
+                    d.addRow(v2);
+                }
+                
+            } catch (Exception e) {
+                System.err.println(e.toString());
+                System.out.println("error in uicontroller facturesTable paint ...");
+            }
+         
+         //updateRowHeights(Table) ;
+            
+        
+    }
 
     void paintSeances(JTable seancesTable, String[] searchResult) {
         try {
@@ -176,9 +211,11 @@ public class uiController {
 
                     v2.add(searchResultRow[0]);
                     v2.add(searchResultRow[1]);
+                    v2.add(searchResultRow[5]);
                     v2.add(searchResultRow[2]);
                     v2.add(searchResultRow[3]);
                     v2.add(searchResultRow[4]);
+                    
                     
                     
                     d.addRow(v2);
@@ -355,7 +392,10 @@ void paintRightsTable(JTable table  , String[] searchResult ){
         }
     }
     
-    void resetVisitPanel( JSpinner priceTF, JCheckBox termineRadio, JTextArea notesTextArea, JPanel teethpanel, JPanel babyTeethPanel, JPanel allTeethPanel){
+    void resetVisitPanel( JSpinner priceTF, JCheckBox termineRadio, JTextArea notesTextArea, JTextArea notesTextAreaNV, JPanel teethpanel, JPanel babyTeethPanel, JPanel allTeethPanel , JLabel ActName , JLabel reste){
+        ActName.setText("");
+        reste.setText("");
+        
         priceTF.setValue(0);
         termineRadio.setSelected(false);
         notesTextArea.setText("                                \n" +
@@ -363,6 +403,12 @@ void paintRightsTable(JTable table  , String[] searchResult ){
         Font font = new Font("Segoe UI", Font.BOLD, 14);
         notesTextArea.setFont(font);
         notesTextArea.setForeground(new Color(204,204,204));
+        
+        notesTextAreaNV.setText("                                \n" +
+"                                   laisser une remarque");
+        notesTextAreaNV.setFont(font);
+        notesTextAreaNV.setForeground(new Color(204,204,204));
+        
         resetTeethPanel(teethpanel , babyTeethPanel);
         
         allTeethPanel.removeAll();
@@ -371,5 +417,33 @@ void paintRightsTable(JTable table  , String[] searchResult ){
         allTeethPanel.revalidate();
         
     }
+
+    void paintModifFacture(Facture modFacture, JTextField operationNameField1, JSpinner operationPriceSpinner1, JTextArea operationDescription1, JButton saveActBtn1, JButton updateActBtn1) {
+        operationNameField1.setText(modFacture.designation);
+        operationPriceSpinner1.setValue(modFacture.cout);
+        operationDescription1.setText(modFacture.description);
+                
+        saveActBtn1.setVisible(false);
+        updateActBtn1.setVisible(true);
+    }
+private void updateRowHeights(JTable table)
+{
+    for (int row = 0; row < table.getRowCount(); row++)
+    {
+        int rowHeight = table.getRowHeight();
+        System.out.println("prefered height  :"+ rowHeight);
+        
+        String textInside = table.getModel().getValueAt(row, 4).toString() ;
+
+        
+        int required_height = 30*(textInside.length()/45) ;
+        
+        System.out.println("required height : "+ required_height);
+        rowHeight = Math.max(rowHeight, required_height);
+        
+
+        table.setRowHeight(row, rowHeight);
+    }}
+    
 
 }

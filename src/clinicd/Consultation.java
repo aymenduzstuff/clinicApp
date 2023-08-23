@@ -11,15 +11,15 @@ package clinicd;
 public class Consultation {
     int id ;
     int client_id ;
-    int act_dent_id ;
     int temine ;
     int[] teeth ;
+    int cost ;
 
-    public Consultation(int id, int client_id, int act_dent_id, int temine) {
+    public Consultation(int id, int client_id, int temine , int cost) {
         this.id = id;
         this.client_id = client_id;
-        this.act_dent_id = act_dent_id;
         this.temine = temine;
+        this.cost = cost ;
     }
 
     public Consultation() {
