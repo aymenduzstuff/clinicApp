@@ -20,6 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -46,6 +47,7 @@ import javax.swing.JTextArea;
 import javax.swing.ListModel;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -152,6 +154,8 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         jLabel97 = new javax.swing.JLabel();
         jLabel98 = new javax.swing.JLabel();
         jLabel47 = new javax.swing.JLabel();
+        jPanel11 = new roundEdgeRec(   new Color( 255 , 255,255 ),20);
+        backupText = new javax.swing.JLabel();
         patientsPanel = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
         clientsTable = new javax.swing.JTable();
@@ -511,7 +515,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         jPopupMenu.setMinimumSize(new java.awt.Dimension(50, 100));
 
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-edit-24.png"))); // NOI18N
-        jMenuItem1.setText("modifie information generales ( patient /dents / cout finale / etat )");
+        jMenuItem1.setText("modifie informations generales ( patient /dents / cout finale / etat )");
         jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenuItem1MouseClicked(evt);
@@ -1034,27 +1038,59 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
             }
         });
 
+        jPanel11.setForeground(new java.awt.Color(255, 255, 255));
+
+        backupText.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/data-backup.png"))); // NOI18N
+        backupText.setText("back-up data");
+        backupText.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        backupText.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backupTextMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(backupText, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(backupText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout homePanelLayout = new javax.swing.GroupLayout(homePanel);
         homePanel.setLayout(homePanelLayout);
         homePanelLayout.setHorizontalGroup(
             homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(homePanelLayout.createSequentialGroup()
-                .addGap(320, 320, 320)
+                .addGap(85, 85, 85)
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(90, 90, 90)
                 .addComponent(mainContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(58, 58, 58)
+                .addGap(34, 34, 34)
                 .addComponent(jLabel47, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(2261, Short.MAX_VALUE))
         );
         homePanelLayout.setVerticalGroup(
             homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(mainContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(220, 220, 220))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homePanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel47, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(202, 202, 202))
+            .addGroup(homePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homePanelLayout.createSequentialGroup()
+                        .addComponent(mainContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(220, 220, 220))
+                    .addGroup(homePanelLayout.createSequentialGroup()
+                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         parentPanel.add(homePanel, "card2");
@@ -5735,6 +5771,60 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                 "Access Denied", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void backupTextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backupTextMouseClicked
+        try {
+            
+            boolean success = UQM.backupData();
+            
+            SwingUtilities.invokeLater(() -> {
+
+                backupText.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/loading_small.gif")));
+                backupText.setText("   Loading...");
+
+                Timer timer = new Timer(3000, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (success) {
+                            ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/images/correct-database.png"));
+                            backupText.setIcon(icon);
+                            backupText.setText("backup succeeded");
+
+                        } else {
+                            ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/images/delete-database.png"));
+                            backupText.setIcon(icon);
+                            backupText.setText("backup failed");
+                            Timer restore_icon = new Timer(20000, new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/images/data-backup.png"));
+                                    backupText.setIcon(icon);
+                                    backupText.setText("back-up data");
+
+                                }
+
+                            });
+                            restore_icon.setRepeats(false);
+                            restore_icon.start();
+
+                        }
+
+                    }
+
+                });
+                timer.setRepeats(false);
+                timer.start();
+                
+            });
+            
+
+        } catch (IOException ex) {
+            Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_backupTextMouseClicked
     
     private void connectToDataBase() {
         
@@ -5826,6 +5916,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
     private javax.swing.JLabel babytoothLbl9;
     private javax.swing.JLabel background;
     private javax.swing.JLabel background1;
+    private javax.swing.JLabel backupText;
     private javax.swing.JLabel calLabel;
     private javax.swing.JLabel cashFilter;
     private javax.swing.JTextField clientSearchBar;
@@ -5963,6 +6054,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;

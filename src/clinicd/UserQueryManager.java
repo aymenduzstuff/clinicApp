@@ -1,6 +1,14 @@
 
 package clinicd;
 import java.awt.Color;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.ProcessBuilder.Redirect;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.ResultSet;
@@ -14,6 +22,7 @@ import javax.swing.JOptionPane;
 import java.time.format.DateTimeFormatter;
 import static java.time.temporal.TemporalQueries.localDate;
 import java.util.Arrays;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -1457,6 +1466,48 @@ boolean modifyClient(DBconnection dBConnection,int id ,  String nom, String pren
         
         sqlAlert(0 , "facture supprime " , 3);
      
+    }
+
+    boolean backupData() throws IOException, InterruptedException {
+        
+        Properties properties = new Properties();
+        Runtime runtime = Runtime.getRuntime()  ;
+        try (InputStream fis = ClinicD.class.getResourceAsStream("/config/config.properties")) {
+            
+            
+            properties.load(fis);
+            Path path = Paths.get(properties.getProperty("destination"));
+            if(!Files.exists(path)){
+                
+                sqlAlert(1 , "assurez-vous que le flashdisque est inséré " , 4);
+                throw new IOException() ;
+            }
+            String today = java.time.LocalDate.now().toString() ;
+            File backupFile = new File(properties.getProperty("destination")+today+".sql");
+            
+            String[] command = new String[]{"mysqldump", "-u"+properties.getProperty("db.username"), "-p"+properties.getProperty("db.password"), "clinicdatabase"};
+            ProcessBuilder processBuilder = new ProcessBuilder(Arrays.asList(command));
+            processBuilder.redirectError(Redirect.INHERIT);
+            processBuilder.redirectOutput(Redirect.to(backupFile));
+
+            Process process = processBuilder.start();
+            
+            int exitCode = process.waitFor();
+
+            if (exitCode == 0) {
+                System.out.println("Database backup completed successfully.");
+                return true ;
+            } else {
+                System.out.println("Database backup failed. Exit code: " + exitCode);
+                return false ;
+            }
+            
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false ;
+            
+        }
     }
     
   }
