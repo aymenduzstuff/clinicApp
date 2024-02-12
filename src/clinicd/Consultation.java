@@ -11,18 +11,26 @@ package clinicd;
 public class Consultation {
     int id ;
     int client_id ;
-    int temine ;
-    int[] teeth ;
-    int cost ;
+    boolean temine ;
+    String teeth ;
+    int rest ;
+    int cout ;
+    int nbrSeances ;
+    int payed;
 
-    public Consultation(int id, int client_id, int temine , int cost) {
+    public Consultation(int id, int client_id, boolean temine, int rest, String dents, int cout, int nbrSeances , int payed) {
         this.id = id;
         this.client_id = client_id;
         this.temine = temine;
-        this.cost = cost ;
+        this.rest = rest ;
+        this.teeth = dents ;
+        this.cout = cout ;
+        this.nbrSeances = nbrSeances  ;
+        this.payed = payed  ;
     }
 
     public Consultation() {
+        this.id = -1 ;
     }
     
            

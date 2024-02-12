@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -48,20 +49,73 @@ public class uiController {
         DefaultTableModel d = (DefaultTableModel) visitsTable.getModel();
         d.setRowCount(0);
         String[] searchResultRow = null;
+        int finalcost , pay , rest , currId , lastId = 0;
 
         for (int i = 0; i < searchResult.length; i++) {
             searchResultRow = searchResult[i].split(":::");
             Vector v2 = new Vector();
+            
+            currId = Integer.parseInt(searchResultRow[0]) ;
+            
+            finalcost = Integer.parseInt(searchResultRow[7]);
+            pay = Integer.parseInt(searchResultRow[5]);
+            rest = finalcost - pay;
 
-            v2.add(searchResultRow[0]);
-            v2.add(searchResultRow[1]);
-            v2.add(searchResultRow[2]);
-            v2.add(searchResultRow[3]);
-            v2.add(searchResultRow[4]);
-            v2.add(searchResultRow[5]);
-            v2.add(searchResultRow[6]);
+            if (searchResultRow[6].equals("1")) {
+                rest = 0;
+            }
+            
+            if(i == 0 ){
+                v2.add(searchResultRow[0]);
+                v2.add(searchResultRow[1]);
+                v2.add(searchResultRow[2]);
+                v2.add(searchResultRow[3]);
+                v2.add(searchResultRow[4]);
+                v2.add(searchResultRow[5]);
+                v2.add(searchResultRow[8]);
+                v2.add(rest);
+                //initializatino + so that it doesn't start with an empty row
+                lastId = currId ;
+            }else{
+                
+                if(lastId !=currId){
+                    
+                    v2.add(searchResultRow[0]);
+                    v2.add(searchResultRow[1]);
+                    v2.add(searchResultRow[2]);
+                    v2.add(searchResultRow[3]);
+                    v2.add(searchResultRow[4]);
+                    v2.add(searchResultRow[5]);
+                    v2.add(searchResultRow[8]);
 
+                    v2.add(rest);
+                    
+                    Vector<String> vector = new Vector<>();
+                    List<String> stringList = List.of(" --- "," ----- "," ----- "," ----- "," ----- "," ----- " , "-----");
+
+                    for (String element : stringList) {
+                        vector.add(element);
+                    }
+
+                    d.addRow(vector);
+                    lastId = currId ; 
+                }else{
+                    v2.add(searchResultRow[0]);
+                    v2.add(searchResultRow[1]);
+                    v2.add(searchResultRow[2]);
+                    v2.add(" ");
+                    v2.add(searchResultRow[4]);
+                    v2.add(" ");
+                    v2.add(" ");
+                    v2.add(" ");
+                }
+                
+                
+                
+            }
             d.addRow(v2);
+            
+            
         }
     }
 
@@ -388,11 +442,11 @@ void paintRightsTable(JTable table  , String[] searchResult ){
                 continue;
             }
             component.setVisible(false);
-            System.out.println("all components :" + component.getName());
+            System.out.print(" " + component.getName());
         }
     }
     
-    void resetVisitPanel( JSpinner priceTF, JCheckBox termineRadio, JTextArea notesTextArea, JTextArea notesTextAreaNV, JPanel teethpanel, JPanel babyTeethPanel, JPanel allTeethPanel , JLabel ActName , JLabel reste){
+    void resetVisitPanel( JSpinner priceTF, JCheckBox termineRadio, JTextArea notesTextArea, JTextArea notesTextAreaNV, JPanel teethpanel, JPanel babyTeethPanel, JPanel allTeethPanel , JLabel ActName , JLabel reste , JPanel visitTypeCards , JPanel defaultSect){
         ActName.setText("");
         reste.setText("");
         
@@ -415,6 +469,11 @@ void paintRightsTable(JTable table  , String[] searchResult ){
         allTeethPanel.add(teethpanel);
         allTeethPanel.repaint();
         allTeethPanel.revalidate();
+        
+        visitTypeCards.removeAll();
+        visitTypeCards.add(defaultSect);
+        visitTypeCards.repaint();
+        visitTypeCards.revalidate(); 
         
     }
 

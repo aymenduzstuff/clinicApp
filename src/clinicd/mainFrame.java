@@ -14,6 +14,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.LayoutManager;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
@@ -27,10 +28,12 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Stack ;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -42,6 +45,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.ListModel;
@@ -72,6 +76,9 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
     static Facture currFact = new Facture() ;
     
     
+    static Stack<javax.swing.JPanel> pagesStack = new Stack<>() ;
+    
+            
     public mainFrame(DBconnection dbc , String adminName) throws SQLException {
         
         admin =  UQM.currentAdmin(dbc, adminName) ;
@@ -82,6 +89,11 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         connectToDataBase();
         displayTime();
         adminNameFade();
+        
+        // Print the names of all components
+        
+        
+        
         try {
             UQM.updateCombo(operationsComboBox , dbc );
             UQM.updateCombo(operationsComboBox1 , dbc);
@@ -154,7 +166,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         jLabel97 = new javax.swing.JLabel();
         jLabel98 = new javax.swing.JLabel();
         jLabel47 = new javax.swing.JLabel();
-        jPanel11 = new roundEdgeRec(   new Color( 255 , 255,255 ),20);
+        jPanel11 = new roundEdgeRec(   new Color( 247,247,247 ),20);
         backupText = new javax.swing.JLabel();
         patientsPanel = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
@@ -311,6 +323,11 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                 graphics.drawRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height); //paint border
             }
         };
+        defaultSect = new roundEdgeRec(new Color(149, 228, 237)  , 50);
+        jPanel15 = new roundEdgeRec(new Color(170, 195, 240) , 30);
+        jLabel108 = new javax.swing.JLabel();
+        jPanel17 = new roundEdgeRec(new Color(170, 195, 240) , 30);
+        jLabel109 = new javax.swing.JLabel();
         newVisitSect = new roundEdgeRec(new Color(217,242,250) , 50);
         operationsComboBox = new javax.swing.JComboBox<>();
         jLabel20 = new javax.swing.JLabel();
@@ -329,8 +346,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         SpinnerModel model99 = new SpinnerNumberModel(0, 0, 100000, 500);
         priceFinalTF = new javax.swing.JSpinner(model99);
         jLabel91 = new javax.swing.JLabel();
-        jPanel3 = new roundEdgeRec(new Color(185, 234, 250) , 30);
-        jLabel105 = new javax.swing.JLabel();
+        jLabel113 = new javax.swing.JLabel();
         newSeanceSect = new roundEdgeRec(new Color(170, 195, 240) , 50);
         SpinnerModel model9 = new SpinnerNumberModel(0, 0, 10000, 500);
         updatePrice = new javax.swing.JSpinner(model9);
@@ -348,8 +364,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         operationsComboBox1 = new javax.swing.JComboBox<>();
         jLabel94 = new javax.swing.JLabel();
         jLabel96 = new javax.swing.JLabel();
-        jPanel10 = new roundEdgeRec(new Color(137, 186, 201) , 30);
-        jLabel107 = new javax.swing.JLabel();
+        jLabel114 = new javax.swing.JLabel();
         doneSect = new roundEdgeRec(new Color(204,255,204)  , 50);
         jLabel46 = new javax.swing.JLabel();
         jLabel70 = new javax.swing.JLabel();
@@ -560,6 +575,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
 
         parentPanel.setLayout(new java.awt.CardLayout());
 
+        homePanel.setName("homepanel"); // NOI18N
         homePanel.setPreferredSize(new java.awt.Dimension(960, 600));
 
         newVisit.setBackground(new java.awt.Color(247, 247, 247));
@@ -1041,7 +1057,6 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         jPanel11.setForeground(new java.awt.Color(255, 255, 255));
 
         backupText.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/data-backup.png"))); // NOI18N
-        backupText.setText("back-up data");
         backupText.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         backupText.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1055,12 +1070,12 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(backupText, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(backupText)
+                .addGap(127, 127, 127))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(backupText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+            .addComponent(backupText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout homePanelLayout = new javax.swing.GroupLayout(homePanel);
@@ -1069,12 +1084,12 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
             homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(homePanelLayout.createSequentialGroup()
                 .addGap(85, 85, 85)
-                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(90, 90, 90)
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(205, 205, 205)
                 .addComponent(mainContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34)
                 .addComponent(jLabel47, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(2261, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         homePanelLayout.setVerticalGroup(
             homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1085,15 +1100,17 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
             .addGroup(homePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homePanelLayout.createSequentialGroup()
-                        .addComponent(mainContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(220, 220, 220))
                     .addGroup(homePanelLayout.createSequentialGroup()
                         .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(homePanelLayout.createSequentialGroup()
+                        .addComponent(mainContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(220, 220, 220))))
         );
 
         parentPanel.add(homePanel, "card2");
+
+        patientsPanel.setName("patientpanel"); // NOI18N
 
         clientsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1239,6 +1256,8 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         jLabel51.setToolTipText("supprimer ce client");
 
         parentPanel.add(patientsPanel, "card5");
+
+        detailedVisitPanel.setName("detailedvisitpanel"); // NOI18N
 
         jLabel34.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/arrow.png"))); // NOI18N
         jLabel34.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1798,7 +1817,8 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                 return canEdit [columnIndex];
             }
         });
-        seancesTable.setRowHeight(30);
+        seancesTable.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        seancesTable.setRowHeight(35);
         seancesTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 seancesTableMouseClicked(evt);
@@ -1959,7 +1979,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                     .addGroup(detailedVisitPanelLayout.createSequentialGroup()
                         .addGap(50, 50, 50)
                         .addComponent(searchTypePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1278, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(2185, Short.MAX_VALUE))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
         detailedVisitPanelLayout.setVerticalGroup(
             detailedVisitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1977,6 +1997,8 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         );
 
         parentPanel.add(detailedVisitPanel, "card4");
+
+        actsPanel.setName("actspanel"); // NOI18N
 
         jScrollPane11.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane11.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -2077,7 +2099,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                     .addGroup(actsPanelLayout.createSequentialGroup()
                         .addGap(110, 110, 110)
                         .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 1075, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(2328, Short.MAX_VALUE))
+                .addContainerGap(222, Short.MAX_VALUE))
         );
         actsPanelLayout.setVerticalGroup(
             actsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2103,6 +2125,8 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         jLabel51.setToolTipText("supprimer ce client");
 
         parentPanel.add(actsPanel, "card5");
+
+        adminsPanel.setName("adminspanel"); // NOI18N
 
         jLabel76.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/arrow.png"))); // NOI18N
         jLabel76.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -2186,7 +2210,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                     .addGroup(adminsPanelLayout.createSequentialGroup()
                         .addGap(108, 108, 108)
                         .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 1162, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(2243, Short.MAX_VALUE))
+                .addContainerGap(137, Short.MAX_VALUE))
         );
         adminsPanelLayout.setVerticalGroup(
             adminsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2209,6 +2233,8 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         jLabel51.setToolTipText("supprimer ce client");
 
         parentPanel.add(adminsPanel, "card5");
+
+        apercusPanel.setName("apercuspanel"); // NOI18N
 
         jLabel80.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/arrow.png"))); // NOI18N
         jLabel80.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -2296,7 +2322,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                     .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 2613, Short.MAX_VALUE))
+                .addGap(0, 507, Short.MAX_VALUE))
             .addGroup(apercusPanelLayout.createSequentialGroup()
                 .addGap(72, 72, 72)
                 .addComponent(jLabel80, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2318,6 +2344,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
 
         parentPanel.add(apercusPanel, "card5");
 
+        visitPanel.setName("visitpanel"); // NOI18N
         visitPanel.setPreferredSize(new java.awt.Dimension(1000, 680));
 
         jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/arrow.png"))); // NOI18N
@@ -2343,17 +2370,17 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
 
         visitsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "id", "date de dernière visite", "le dernier acte dentaire", "dent(s)", "nbr seances", "payé", "État"
+                "id", "date de visite", "l'acte dentaire", "dent(s)", "montant payé", "total payé", "cout", "reste"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -2363,7 +2390,9 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         visitsTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         visitsTable.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         visitsTable.setGridColor(new java.awt.Color(0, 102, 102));
-        visitsTable.setRowHeight(23);
+        visitsTable.setRowHeight(30);
+        visitsTable.setSelectionBackground(new java.awt.Color(153, 204, 255));
+        visitsTable.setSelectionForeground(new java.awt.Color(51, 51, 51));
         visitsTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 visitsTableMouseClicked(evt);
@@ -2378,11 +2407,11 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
             visitsTable.getColumnModel().getColumn(1).setPreferredWidth(150);
             visitsTable.getColumnModel().getColumn(3).setPreferredWidth(100);
             visitsTable.getColumnModel().getColumn(4).setPreferredWidth(50);
-            visitsTable.getColumnModel().getColumn(6).setMaxWidth(50);
+            visitsTable.getColumnModel().getColumn(5).setMaxWidth(70);
+            visitsTable.getColumnModel().getColumn(6).setMaxWidth(70);
+            visitsTable.getColumnModel().getColumn(7).setMaxWidth(70);
         }
         visitsTable.setDefaultRenderer(Object.class, new CustomCellRenderer());
-
-        visitsTable.setSelectionBackground(Color.CYAN);
 
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -2487,7 +2516,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                 .addComponent(resteLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jLabel69)
-                .addContainerGap(375, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2511,6 +2540,106 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         );
 
         visitTypeCards.setLayout(new java.awt.CardLayout());
+
+        defaultSect.setForeground(new java.awt.Color(204, 204, 204));
+        defaultSect.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                defaultSectMouseClicked(evt);
+            }
+        });
+
+        jPanel15.setBackground(new java.awt.Color(149, 228, 237));
+        jPanel15.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel15.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel15MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel15MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel15MouseExited(evt);
+            }
+        });
+
+        jLabel108.setText("nouvelle opération");
+        jLabel108.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        jLabel108.setForeground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addGap(61, 61, 61)
+                .addComponent(jLabel108)
+                .addContainerGap(61, Short.MAX_VALUE))
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
+                .addContainerGap(23, Short.MAX_VALUE)
+                .addComponent(jLabel108)
+                .addGap(16, 16, 16))
+        );
+
+        jPanel17.setBackground(new java.awt.Color(149, 228, 237));
+        jPanel17.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel17MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel17MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel17MouseExited(evt);
+            }
+        });
+
+        jLabel109.setText("continuer une opération ");
+        jLabel109.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        jLabel109.setForeground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
+        jPanel17.setLayout(jPanel17Layout);
+        jPanel17Layout.setHorizontalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel17Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jLabel109, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(31, Short.MAX_VALUE))
+        );
+        jPanel17Layout.setVerticalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel17Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel109)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout defaultSectLayout = new javax.swing.GroupLayout(defaultSect);
+        defaultSect.setLayout(defaultSectLayout);
+        defaultSectLayout.setHorizontalGroup(
+            defaultSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(defaultSectLayout.createSequentialGroup()
+                .addGap(199, 199, 199)
+                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(204, Short.MAX_VALUE))
+        );
+        defaultSectLayout.setVerticalGroup(
+            defaultSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(defaultSectLayout.createSequentialGroup()
+                .addGap(107, 107, 107)
+                .addGroup(defaultSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(113, Short.MAX_VALUE))
+        );
+
+        visitTypeCards.add(defaultSect, "card4");
 
         newVisitSect.setForeground(new java.awt.Color(204, 204, 204));
         newVisitSect.setPreferredSize(new java.awt.Dimension(868, 268));
@@ -2623,83 +2752,66 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
 
         jLabel91.setText("coût final");
 
-        jPanel3.setBackground(new java.awt.Color(217, 242, 250));
-        jPanel3.setForeground(new java.awt.Color(255, 255, 255));
-
-        jLabel105.setText("nouvelle visite");
-        jLabel105.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
-        jLabel105.setForeground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jLabel105, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel105)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jLabel113.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/back-arrow .png"))); // NOI18N
+        jLabel113.setText("retour");
+        jLabel113.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel113MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout newVisitSectLayout = new javax.swing.GroupLayout(newVisitSect);
         newVisitSect.setLayout(newVisitSectLayout);
         newVisitSectLayout.setHorizontalGroup(
             newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(newVisitSectLayout.createSequentialGroup()
-                .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(110, 110, 110)
+                .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(newVisitSectLayout.createSequentialGroup()
-                        .addGap(110, 110, 110)
-                        .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(newVisitSectLayout.createSequentialGroup()
-                                .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(newVisitSectLayout.createSequentialGroup()
-                                        .addGap(32, 32, 32)
-                                        .addComponent(jLabel20)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel27))
-                                    .addComponent(operationsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(32, 32, 32)
+                                .addComponent(jLabel20)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel27))
+                            .addComponent(operationsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(priceTF, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newVisitSectLayout.createSequentialGroup()
+                                .addComponent(jLabel64)
+                                .addGap(16, 16, 16)))
+                        .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(newVisitSectLayout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(priceFinalTF, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(priceTF, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newVisitSectLayout.createSequentialGroup()
-                                        .addComponent(jLabel64)
-                                        .addGap(16, 16, 16)))
-                                .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel23)
                                     .addGroup(newVisitSectLayout.createSequentialGroup()
-                                        .addGap(12, 12, 12)
-                                        .addComponent(priceFinalTF, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel89)
                                         .addGap(18, 18, 18)
-                                        .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel23)
-                                            .addGroup(newVisitSectLayout.createSequentialGroup()
-                                                .addComponent(jLabel89)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(termineRadio))))
-                                    .addGroup(newVisitSectLayout.createSequentialGroup()
-                                        .addGap(44, 44, 44)
-                                        .addComponent(jLabel91, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(jScrollPane7))
-                        .addGap(70, 70, 70)
-                        .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(savebtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(newVisitSectLayout.createSequentialGroup()
-                        .addGap(450, 450, 450)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(termineRadio))))
+                            .addGroup(newVisitSectLayout.createSequentialGroup()
+                                .addGap(44, 44, 44)
+                                .addComponent(jLabel91, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jScrollPane7))
+                .addGap(70, 70, 70)
+                .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(savebtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(133, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newVisitSectLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel113)
+                .addGap(439, 439, 439))
         );
         newVisitSectLayout.setVerticalGroup(
             newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newVisitSectLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addComponent(jLabel113)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newVisitSectLayout.createSequentialGroup()
                         .addGroup(newVisitSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -2826,51 +2938,37 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
             }
         });
 
-        jPanel10.setBackground(new java.awt.Color(170, 195, 240));
-        jPanel10.setForeground(new java.awt.Color(255, 255, 255));
-
-        jLabel107.setText("  continuation");
-        jLabel107.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
-        jLabel107.setForeground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel107, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-                .addGap(10, 10, 10))
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel107)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jLabel114.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/back-arrow .png"))); // NOI18N
+        jLabel114.setText("retour");
+        jLabel114.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel114MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout newSeanceSectLayout = new javax.swing.GroupLayout(newSeanceSect);
         newSeanceSect.setLayout(newSeanceSectLayout);
         newSeanceSectLayout.setHorizontalGroup(
             newSeanceSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(newSeanceSectLayout.createSequentialGroup()
-                .addGroup(newSeanceSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(newSeanceSectLayout.createSequentialGroup()
-                        .addGap(110, 110, 110)
-                        .addGroup(newSeanceSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGap(110, 110, 110)
+                .addGroup(newSeanceSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, newSeanceSectLayout.createSequentialGroup()
+                        .addGroup(newSeanceSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(newSeanceSectLayout.createSequentialGroup()
-                                .addGroup(newSeanceSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(newSeanceSectLayout.createSequentialGroup()
-                                        .addComponent(jLabel94, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel96))
-                                    .addComponent(operationsComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(35, 35, 35)
-                                .addGroup(newSeanceSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(updatePrice, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(35, 35, 35)
+                                .addComponent(jLabel94, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel96))
+                            .addComponent(operationsComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(35, 35, 35)
+                        .addGroup(newSeanceSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(updatePrice, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(35, 35, 35)
+                        .addGroup(newSeanceSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel114)
+                            .addGroup(newSeanceSectLayout.createSequentialGroup()
                                 .addGroup(newSeanceSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, newSeanceSectLayout.createSequentialGroup()
                                         .addComponent(jLabel92)
@@ -2878,23 +2976,19 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                                         .addComponent(termineradio1))
                                     .addComponent(jLabel24))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel90))
-                            .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(70, 70, 70)
-                        .addGroup(newSeanceSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(updatebtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(newSeanceSectLayout.createSequentialGroup()
-                        .addGap(450, 450, 450)
-                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel90)))))
+                .addGap(70, 70, 70)
+                .addGroup(newSeanceSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(updatebtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(133, Short.MAX_VALUE))
         );
         newSeanceSectLayout.setVerticalGroup(
             newSeanceSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newSeanceSectLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(jLabel114)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(newSeanceSectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel90, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(newSeanceSectLayout.createSequentialGroup()
@@ -2978,162 +3072,162 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         teethpanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         toothLbl1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth1.png"))); // NOI18N
-        toothLbl1.setName("28"); // NOI18N
+        toothLbl1.setName("18"); // NOI18N
         teethpanel.add(toothLbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl1.setVisible(false);
 
         toothLbl2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth2.png"))); // NOI18N
-        toothLbl2.setName("27"); // NOI18N
+        toothLbl2.setName("17"); // NOI18N
         teethpanel.add(toothLbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl2.setVisible(false);
 
         toothLbl3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth3.png"))); // NOI18N
-        toothLbl3.setName("26"); // NOI18N
+        toothLbl3.setName("16"); // NOI18N
         teethpanel.add(toothLbl3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl3.setVisible(false);
 
         toothLbl4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth4.png"))); // NOI18N
-        toothLbl4.setName("25"); // NOI18N
+        toothLbl4.setName("15"); // NOI18N
         teethpanel.add(toothLbl4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl4.setVisible(false);
 
         toothLbl5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth5.png"))); // NOI18N
-        toothLbl5.setName("24"); // NOI18N
+        toothLbl5.setName("14"); // NOI18N
         teethpanel.add(toothLbl5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl5.setVisible(false);
 
         toothLbl6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth6.png"))); // NOI18N
-        toothLbl6.setName("23"); // NOI18N
+        toothLbl6.setName("13"); // NOI18N
         teethpanel.add(toothLbl6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl6.setVisible(false);
 
         toothLbl7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/teeth7.png"))); // NOI18N
-        toothLbl7.setName("22"); // NOI18N
+        toothLbl7.setName("12"); // NOI18N
         teethpanel.add(toothLbl7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl7.setVisible(false);
 
         toothLbl8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth8.png"))); // NOI18N
-        toothLbl8.setName("21"); // NOI18N
+        toothLbl8.setName("11"); // NOI18N
         teethpanel.add(toothLbl8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl8.setVisible(false);
 
         toothLbl9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth9.png"))); // NOI18N
-        toothLbl9.setName("11"); // NOI18N
+        toothLbl9.setName("21"); // NOI18N
         teethpanel.add(toothLbl9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl9.setVisible(false);
 
         toothLbl10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth10.png"))); // NOI18N
-        toothLbl10.setName("12"); // NOI18N
+        toothLbl10.setName("22"); // NOI18N
         teethpanel.add(toothLbl10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl10.setVisible(false);
 
         toothLbl11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth11.png"))); // NOI18N
-        toothLbl11.setName("13"); // NOI18N
+        toothLbl11.setName("23"); // NOI18N
         teethpanel.add(toothLbl11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl11.setVisible(false);
 
         toothLbl12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth12.png"))); // NOI18N
-        toothLbl12.setName("14"); // NOI18N
+        toothLbl12.setName("24"); // NOI18N
         teethpanel.add(toothLbl12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl12.setVisible(false);
 
         toothLbl13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth13.png"))); // NOI18N
-        toothLbl13.setName("15"); // NOI18N
+        toothLbl13.setName("25"); // NOI18N
         teethpanel.add(toothLbl13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl13.setVisible(false);
 
         toothLbl14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth14.png"))); // NOI18N
-        toothLbl14.setName("16"); // NOI18N
+        toothLbl14.setName("26"); // NOI18N
         teethpanel.add(toothLbl14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl14.setVisible(false);
 
         toothLbl15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth15.png"))); // NOI18N
-        toothLbl15.setName("17"); // NOI18N
+        toothLbl15.setName("27"); // NOI18N
         teethpanel.add(toothLbl15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl15.setVisible(false);
 
         toothLbl16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth16.png"))); // NOI18N
-        toothLbl16.setName("18"); // NOI18N
+        toothLbl16.setName("28"); // NOI18N
         teethpanel.add(toothLbl16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl16.setVisible(false);
 
         toothLbl17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth17.png"))); // NOI18N
-        toothLbl17.setName("48"); // NOI18N
+        toothLbl17.setName("38"); // NOI18N
         teethpanel.add(toothLbl17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl17.setVisible(false);
 
         toothLbl18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth18.png"))); // NOI18N
-        toothLbl18.setName("47"); // NOI18N
+        toothLbl18.setName("37"); // NOI18N
         teethpanel.add(toothLbl18, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl18.setVisible(false);
 
         toothLbl19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth19.png"))); // NOI18N
-        toothLbl19.setName("46"); // NOI18N
+        toothLbl19.setName("36"); // NOI18N
         teethpanel.add(toothLbl19, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl19.setVisible(false);
 
         toothLbl20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth20.png"))); // NOI18N
-        toothLbl20.setName("45"); // NOI18N
+        toothLbl20.setName("35"); // NOI18N
         teethpanel.add(toothLbl20, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl20.setVisible(false);
 
         toothLbl21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth21.png"))); // NOI18N
-        toothLbl21.setName("44"); // NOI18N
+        toothLbl21.setName("34"); // NOI18N
         teethpanel.add(toothLbl21, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl21.setVisible(false);
 
         toothLbl22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth22.png"))); // NOI18N
-        toothLbl22.setName("43"); // NOI18N
+        toothLbl22.setName("33"); // NOI18N
         teethpanel.add(toothLbl22, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl22.setVisible(false);
 
         toothLbl23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth23.png"))); // NOI18N
-        toothLbl23.setName("42"); // NOI18N
+        toothLbl23.setName("32"); // NOI18N
         teethpanel.add(toothLbl23, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl23.setVisible(false);
 
         toothLbl24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth24.png"))); // NOI18N
-        toothLbl24.setName("41"); // NOI18N
+        toothLbl24.setName("31"); // NOI18N
         teethpanel.add(toothLbl24, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl24.setVisible(false);
 
         toothLbl25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth25.png"))); // NOI18N
-        toothLbl25.setName("31"); // NOI18N
+        toothLbl25.setName("41"); // NOI18N
         teethpanel.add(toothLbl25, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl25.setVisible(false);
 
         toothLbl26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth26.png"))); // NOI18N
-        toothLbl26.setName("32"); // NOI18N
+        toothLbl26.setName("42"); // NOI18N
         teethpanel.add(toothLbl26, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl26.setVisible(false);
 
         toothLbl27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth27.png"))); // NOI18N
-        toothLbl27.setName("33"); // NOI18N
+        toothLbl27.setName("43"); // NOI18N
         teethpanel.add(toothLbl27, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl27.setVisible(false);
 
         toothLbl28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth28.png"))); // NOI18N
-        toothLbl28.setName("34"); // NOI18N
+        toothLbl28.setName("44"); // NOI18N
         teethpanel.add(toothLbl28, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl28.setVisible(false);
 
         toothLbl29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth29.png"))); // NOI18N
-        toothLbl29.setName("35"); // NOI18N
+        toothLbl29.setName("45"); // NOI18N
         teethpanel.add(toothLbl29, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl29.setVisible(false);
 
         toothLbl30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth30.png"))); // NOI18N
-        toothLbl30.setName("36"); // NOI18N
+        toothLbl30.setName("46"); // NOI18N
         teethpanel.add(toothLbl30, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl30.setVisible(false);
 
         toothLbl31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth31.png"))); // NOI18N
-        toothLbl31.setName("37"); // NOI18N
+        toothLbl31.setName("47"); // NOI18N
         teethpanel.add(toothLbl31, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl31.setVisible(false);
 
         toothLbl32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/teeth/tooth32.png"))); // NOI18N
-        toothLbl32.setName("38"); // NOI18N
+        toothLbl32.setName("48"); // NOI18N
         teethpanel.add(toothLbl32, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         toothLbl32.setVisible(false);
 
@@ -3151,102 +3245,102 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         babyTeethPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         babytoothLbl1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BTeeth/babyTooth1.png"))); // NOI18N
-        babytoothLbl1.setName("65"); // NOI18N
+        babytoothLbl1.setName("55"); // NOI18N
         babyTeethPanel.add(babytoothLbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         babytoothLbl1.setVisible(false);
 
         babytoothLbl2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BTeeth/babyTooth2.png"))); // NOI18N
-        babytoothLbl2.setName("64"); // NOI18N
+        babytoothLbl2.setName("54"); // NOI18N
         babyTeethPanel.add(babytoothLbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         babytoothLbl2.setVisible(false);
 
         babytoothLbl3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BTeeth/babyTooth3.png"))); // NOI18N
-        babytoothLbl3.setName("63"); // NOI18N
+        babytoothLbl3.setName("53"); // NOI18N
         babyTeethPanel.add(babytoothLbl3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         babytoothLbl3.setVisible(false);
 
         babytoothLbl4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BTeeth/babyTooth4.png"))); // NOI18N
-        babytoothLbl4.setName("62"); // NOI18N
+        babytoothLbl4.setName("52"); // NOI18N
         babyTeethPanel.add(babytoothLbl4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         babytoothLbl4.setVisible(false);
 
         babytoothLbl5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BTeeth/babyTooth5.png"))); // NOI18N
-        babytoothLbl5.setName("61"); // NOI18N
+        babytoothLbl5.setName("51"); // NOI18N
         babyTeethPanel.add(babytoothLbl5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         babytoothLbl5.setVisible(false);
 
         babytoothLbl6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BTeeth/babyTooth6.png"))); // NOI18N
-        babytoothLbl6.setName("51"); // NOI18N
+        babytoothLbl6.setName("61"); // NOI18N
         babyTeethPanel.add(babytoothLbl6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         babytoothLbl6.setVisible(false);
 
         babytoothLbl7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BTeeth/babyTooth7.png"))); // NOI18N
-        babytoothLbl7.setName("52"); // NOI18N
+        babytoothLbl7.setName("62"); // NOI18N
         babyTeethPanel.add(babytoothLbl7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         babytoothLbl7.setVisible(false);
 
         babytoothLbl8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BTeeth/babyTooth8.png"))); // NOI18N
-        babytoothLbl8.setName("53"); // NOI18N
+        babytoothLbl8.setName("63"); // NOI18N
         babyTeethPanel.add(babytoothLbl8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         babytoothLbl8.setVisible(false);
 
         babytoothLbl9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BTeeth/babyTooth9.png"))); // NOI18N
-        babytoothLbl9.setName("54"); // NOI18N
+        babytoothLbl9.setName("64"); // NOI18N
         babyTeethPanel.add(babytoothLbl9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         babytoothLbl9.setVisible(false);
 
         babytoothLbl10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BTeeth/babyTooth10.png"))); // NOI18N
-        babytoothLbl10.setName("55"); // NOI18N
+        babytoothLbl10.setName("65"); // NOI18N
         babyTeethPanel.add(babytoothLbl10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         babytoothLbl10.setVisible(false);
 
         babytoothLbl11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BTeeth/babyTooth11.png"))); // NOI18N
-        babytoothLbl11.setName("85"); // NOI18N
+        babytoothLbl11.setName("75"); // NOI18N
         babyTeethPanel.add(babytoothLbl11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         babytoothLbl11.setVisible(false);
 
         babytoothLbl12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BTeeth/babyTooth12.png"))); // NOI18N
-        babytoothLbl12.setName("84"); // NOI18N
+        babytoothLbl12.setName("74"); // NOI18N
         babyTeethPanel.add(babytoothLbl12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         babytoothLbl12.setVisible(false);
 
         babytoothLbl13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BTeeth/babyTeeth13.png"))); // NOI18N
-        babytoothLbl13.setName("83"); // NOI18N
+        babytoothLbl13.setName("73"); // NOI18N
         babyTeethPanel.add(babytoothLbl13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         babytoothLbl13.setVisible(false);
 
         babytoothLbl14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BTeeth/babyTeeth14.png"))); // NOI18N
-        babytoothLbl14.setName("82"); // NOI18N
+        babytoothLbl14.setName("72"); // NOI18N
         babyTeethPanel.add(babytoothLbl14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         babytoothLbl14.setVisible(false);
 
         babytoothLbl15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BTeeth/babyTeeth15.png"))); // NOI18N
-        babytoothLbl15.setName("81"); // NOI18N
+        babytoothLbl15.setName("71"); // NOI18N
         babyTeethPanel.add(babytoothLbl15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         babytoothLbl15.setVisible(false);
 
         babytoothLbl16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BTeeth/babyTeeth16.png"))); // NOI18N
-        babytoothLbl16.setName("71"); // NOI18N
+        babytoothLbl16.setName("81"); // NOI18N
         babyTeethPanel.add(babytoothLbl16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         babytoothLbl16.setVisible(false);
 
         babytoothLbl17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BTeeth/babyTeeth17.png"))); // NOI18N
-        babytoothLbl17.setName("72"); // NOI18N
+        babytoothLbl17.setName("82"); // NOI18N
         babyTeethPanel.add(babytoothLbl17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         babytoothLbl17.setVisible(false);
 
         babytoothLbl18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BTeeth/babyTooth18.png"))); // NOI18N
-        babytoothLbl18.setName("73"); // NOI18N
+        babytoothLbl18.setName("83"); // NOI18N
         babyTeethPanel.add(babytoothLbl18, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         babytoothLbl18.setVisible(false);
 
         babytoothLbl19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BTeeth/babyTooth19.png"))); // NOI18N
-        babytoothLbl19.setName("74"); // NOI18N
+        babytoothLbl19.setName("84"); // NOI18N
         babyTeethPanel.add(babytoothLbl19, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         babytoothLbl19.setVisible(false);
 
         babytoothLbl20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BTeeth/babyTooth20.png"))); // NOI18N
-        babytoothLbl20.setName("75"); // NOI18N
+        babytoothLbl20.setName("85"); // NOI18N
         babyTeethPanel.add(babytoothLbl20, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 300));
         babytoothLbl20.setVisible(false);
 
@@ -3269,42 +3363,47 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         visitPanelLayout.setHorizontalGroup(
             visitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(visitPanelLayout.createSequentialGroup()
-                .addGap(50, 50, 50)
                 .addGroup(visitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(visitPanelLayout.createSequentialGroup()
-                        .addGroup(visitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
-                            .addComponent(clientSearchBar))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 928, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(visitPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(279, 279, 279)
-                        .addComponent(warningLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 825, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(visitPanelLayout.createSequentialGroup()
-                        .addGroup(visitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(visitPanelLayout.createSequentialGroup()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(80, 80, 80))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, visitPanelLayout.createSequentialGroup()
-                                .addComponent(allTeethPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(254, 254, 254)))
+                        .addGap(1040, 1040, 1040)
+                        .addComponent(allTeethPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
                         .addComponent(jLabel21))
+                    .addGroup(visitPanelLayout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(visitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(visitPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(257, 257, 257)
+                                .addComponent(warningLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 825, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(0, 108, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, visitPanelLayout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addGroup(visitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(visitPanelLayout.createSequentialGroup()
                         .addGap(108, 108, 108)
                         .addComponent(jLabel19)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel25)
-                        .addGap(550, 550, 550)
-                        .addComponent(jLabel106)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel25))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clientSearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(visitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(visitPanelLayout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 928, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, visitPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel106)
+                        .addGap(405, 405, 405))))
             .addGroup(visitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(visitPanelLayout.createSequentialGroup()
                     .addGap(48, 48, 48)
                     .addComponent(visitTypeCards, javax.swing.GroupLayout.PREFERRED_SIZE, 999, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(525, Short.MAX_VALUE)))
+                    .addContainerGap(360, Short.MAX_VALUE)))
         );
         visitPanelLayout.setVerticalGroup(
             visitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3314,29 +3413,31 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                     .addGroup(visitPanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(warningLabel)))
-                .addGap(23, 23, 23)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(visitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel19)
-                    .addComponent(jLabel25)
-                    .addComponent(jLabel106))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(clientSearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8)
-                .addGroup(visitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(visitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel106)
+                        .addComponent(jLabel25)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(visitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(visitPanelLayout.createSequentialGroup()
+                        .addComponent(clientSearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(visitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(visitPanelLayout.createSequentialGroup()
-                        .addGap(189, 189, 189)
+                        .addGap(131, 131, 131)
                         .addComponent(jLabel21))
                     .addGroup(visitPanelLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(visitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(allTeethPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(48, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(visitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(allTeethPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(27, Short.MAX_VALUE))
             .addGroup(visitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, visitPanelLayout.createSequentialGroup()
                     .addContainerGap(345, Short.MAX_VALUE)
@@ -3347,6 +3448,8 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         warningLabel.setVisible(false);
 
         parentPanel.add(visitPanel, "card3");
+
+        facturesPanel.setName("facturespanel"); // NOI18N
 
         jScrollPane13.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane13.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -3483,7 +3586,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                         .addComponent(jLabel104, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(depenseMois)))
-                .addContainerGap(2300, Short.MAX_VALUE))
+                .addContainerGap(194, Short.MAX_VALUE))
         );
         facturesPanelLayout.setVerticalGroup(
             facturesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3590,20 +3693,51 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
             System.arraycopy(selectedTeeth2, 0, allSelectedTeeth, selectedTeeth1.length, selectedTeeth2.length);
 
             String remarque = notesTextAreaNV.getText();
-            System.out.println(remarque);
             try {
                 String remarque_las9a = remarque.replaceAll("\\s", "");
-                System.out.println(remarque_las9a);
+                
                 if (remarque_las9a.equals("laisseruneremarque")) {
                     remarque = null;
                 }
                 String operation_id = String.valueOf(UQM.getOperationIdByName(dbc, operation));
-                // parameter #5 is admin id
-                UQM.insertVisit(dbc, timeStamp, client_id, operation_id, String.valueOf(admin.id), priceTF.getValue().toString(), termine, allSelectedTeeth, remarque , priceFinalTF.getValue().toString());
-                System.out.println("visit added");
+                ////////////////////////////////////////////////////
+                if ((int)priceTF.getValue() == (int)priceFinalTF.getValue()  ) {
+                        int answer = confirmationMsg("le coût est égal au montant payé \n souhaitez-vous marquer que cette opération est terminée");
+                        
+                        if (answer == JOptionPane.YES_OPTION) {
+
+                            try {
+                                // parameter #5 is admin id
+                               UQM.insertVisit(dbc, timeStamp, client_id, operation_id, String.valueOf(admin.id), priceTF.getValue().toString(), "1", allSelectedTeeth, remarque , priceFinalTF.getValue().toString());
+                            } catch (SQLException ex) {
+                                Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                ex.getStackTrace();
+                            }
+
+                        } else if(answer == JOptionPane.NO_OPTION) {
+                            try {
+                               int augmentedPrice = (int)priceFinalTF.getValue() + 1 ;
+                               UQM.insertVisit(dbc, timeStamp, client_id, operation_id, String.valueOf(admin.id), priceTF.getValue().toString(), "0", allSelectedTeeth, remarque , String.valueOf(augmentedPrice));
+                            } catch (SQLException ex) {
+                                Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                ex.getStackTrace();
+                            }
+                        }
+                }else{
+                            try {
+                                // parameter #5 is admin id
+                               UQM.insertVisit(dbc, timeStamp, client_id, operation_id, String.valueOf(admin.id), priceTF.getValue().toString(), termine, allSelectedTeeth, remarque , priceFinalTF.getValue().toString());
+                            } catch (SQLException ex) {
+                                Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                ex.getStackTrace();
+                            }
+                }
+                ////////////////////////////////////////////////////
+                
+                
 
                 try {
-                    String[] searchResult = UQM.getVisitsResults(dbc, model.getValueAt(selectedRowIndex, 0).toString(), 2);
+                    String[] searchResult = UQM.getVisitsResults(dbc, model.getValueAt(selectedRowIndex, 0).toString(), 1);
                     UIC.paintVistsTable(visitsTable, searchResult);
 
                 } catch (SQLException ex) {
@@ -3618,8 +3752,8 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
             }
         }
 
-        UIC.resetVisitPanel(priceTF, termineRadio, notesTextAreaNV, notesTextAreaNV1, teethpanel, babyTeethPanel, allTeethPanel , procedureLabel , resteLabel);
-
+        UIC.resetVisitPanel(priceTF, termineRadio, notesTextAreaNV, notesTextAreaNV1, teethpanel, babyTeethPanel, allTeethPanel , procedureLabel , resteLabel , visitTypeCards , defaultSect);
+        destroyObjects();
 
     }//GEN-LAST:event_savebtnActionPerformed
     
@@ -3631,6 +3765,9 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         
         parentPanel.removeAll();
         parentPanel.add(visitPanel);
+        
+        pagesStack.add(visitPanel);
+        
         parentPanel.repaint();
         parentPanel.revalidate();
         
@@ -3649,12 +3786,9 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
 
     private void jLabel18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel18MouseClicked
         
-        parentPanel.removeAll();
-        parentPanel.add(homePanel);
-        parentPanel.repaint();
-        parentPanel.revalidate();
+        goToPrevious();
         
-        UIC.resetVisitPanel(priceTF ,termineRadio , notesTextAreaNV , notesTextAreaNV1, teethpanel , babyTeethPanel , allTeethPanel  , procedureLabel , resteLabel  );
+        UIC.resetVisitPanel(priceTF ,termineRadio , notesTextAreaNV , notesTextAreaNV1, teethpanel , babyTeethPanel , allTeethPanel  , procedureLabel , resteLabel , visitTypeCards , defaultSect  );
     }//GEN-LAST:event_jLabel18MouseClicked
     Boolean on = false ;
     private void newClientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newClientMouseClicked
@@ -3663,7 +3797,6 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                 PopUp ppup = new PopUp("client", dbc, null , admin);
                 ppup.setLocationRelativeTo(null);
                 ppup.setVisible(true);
-                System.out.println("the new client button is clicked ");
             } catch (SQLException ex) {
                 Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -3788,7 +3921,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         String[] searchResult = new String[6];
         
         try {
-            searchResult = UQM.getVisitsResults(dbc , model.getValueAt(selectedRowIndex, 0).toString() , 2);
+            searchResult = UQM.getVisitsResults(dbc , model.getValueAt(selectedRowIndex, 0).toString() , 1);
             UIC.paintVistsTable( visitsTable , searchResult  );
 
         } catch (SQLException ex) {
@@ -3797,14 +3930,13 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         
         
         
-        System.out.println("notes : " +curClient.notes );
         if(curClient.notes== null || "".equals(curClient.notes) ){
             warningLabel.setVisible(false);
         }else{
             warningLabel.setVisible(true);
         }
         
-        UIC.resetVisitPanel(priceTF ,termineRadio , notesTextAreaNV , notesTextAreaNV1, teethpanel , babyTeethPanel , allTeethPanel  , procedureLabel , resteLabel );
+        UIC.resetVisitPanel(priceTF ,termineRadio , notesTextAreaNV , notesTextAreaNV1, teethpanel , babyTeethPanel , allTeethPanel  , procedureLabel , resteLabel, visitTypeCards , defaultSect );
         
     }//GEN-LAST:event_usersTableMouseClicked
 
@@ -3817,7 +3949,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
     }//GEN-LAST:event_updatePriceMouseClicked
 
     private void updatebtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updatebtnMouseClicked
-        if (visitsTable.getSelectedRow() == -1) {
+        if (currCons.id == -1) {
             JOptionPane.showMessageDialog(null, "sélectionnez d'abord une operation");
         } else {
             
@@ -3826,17 +3958,14 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
             try {
                 String operation_id = String.valueOf(UQM.getOperationIdByName(dbc, String.valueOf(operationsComboBox1.getSelectedItem())));
                 
-                DefaultTableModel model = (DefaultTableModel) visitsTable.getModel();
-                int selectedRowIndex = visitsTable.getSelectedRow();
                 
                 String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
                 
-                String visit_id = model.getValueAt(selectedRowIndex, 0).toString();
+                String visit_id = String.valueOf(currCons.id) ;
                 
-                String seance_nbr = model.getValueAt(selectedRowIndex, 4).toString();
+                int seance_nbr = currCons.nbrSeances ;
                 //update consultatoin when : the stutus is 0 and
                 String remarque = notesTextAreaNV1.getText();
-                System.out.println(remarque.replaceAll("\\s", ""));
                 
                 if (remarque.replaceAll("\\s", "").equals("laisseruneremarque")) {
                     remarque = null;
@@ -3844,37 +3973,39 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                 
                 if (termineradio1.isSelected()) {
                     try {
-                        UQM.setVisitTermine(dbc, visit_id);
+                        UQM.setVisitTermine(dbc, visit_id, currCons , (int)updatePrice.getValue());
                         UQM.insertSeance(dbc, visit_id, seance_nbr, timeStamp, String.valueOf(admin.id), updatePrice.getValue().toString(), remarque , operation_id);
                         
                     } catch (SQLException ex) {
                         Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                        ex.getStackTrace();
                     }
                 } else {
                     
-                    if (currCons.cost <= Integer.parseInt(updatePrice.getValue().toString()) + Integer.parseInt(model.getValueAt(selectedRowIndex, 5).toString())) {
+                    if (currCons.rest <= Integer.parseInt(updatePrice.getValue().toString())) {
                         int answer = confirmationMsg("le montant payé est supérieur au coût final que vous avez défini \n souhaitez-vous marquer que cette opération est terminée");
                         
                         if (answer == JOptionPane.YES_OPTION) {
 
                             try {
                                 // parameter #5 is admin id
-                                UQM.setVisitTermine(dbc, visit_id);
+                                UQM.setVisitTermine(dbc, visit_id , currCons , (int) updatePrice.getValue());
                                 UQM.insertSeance(dbc, visit_id, seance_nbr, timeStamp, String.valueOf(admin.id), updatePrice.getValue().toString(), remarque, operation_id);
-                                System.out.println("visit updated in interface");
+                                
                             } catch (SQLException ex) {
                                 Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
-                                System.out.println("exception code : " + ex.getErrorCode() + "select an operation");
+                                ex.getStackTrace();
                             }
 
                         } else {
                             try {
                                 // parameter #5 is admin id
                                 UQM.insertSeance(dbc, visit_id, seance_nbr, timeStamp, String.valueOf(admin.id), updatePrice.getValue().toString(), remarque, operation_id);
-                                System.out.println("visit updated in interface");
+                                
                             } catch (SQLException ex) {
                                 Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
-                                System.out.println("exception code : " + ex.getErrorCode() + "select an operation");
+                                ex.getStackTrace();
+
                             }
                         }
                         
@@ -3885,10 +4016,10 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                         try {
                             // parameter #5 is admin id
                             UQM.insertSeance(dbc, visit_id, seance_nbr, timeStamp, String.valueOf(admin.id), updatePrice.getValue().toString(), remarque , operation_id);
-                            System.out.println("visit updated in interface");
+                            
                         } catch (SQLException ex) {
                             Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
-                            System.out.println("exception code : " + ex.getErrorCode() + "select an operation");
+                            ex.getStackTrace();
                         }
                     }
                     
@@ -3905,27 +4036,30 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                 String[] searchResult = new String[6];
 
                 try {
-                    searchResult = UQM.getVisitsResults(dbc, usrmodel.getValueAt(selectedIndex, 0).toString(), 2);
+                    searchResult = UQM.getVisitsResults(dbc, usrmodel.getValueAt(selectedIndex, 0).toString(), 1);
                     UIC.paintVistsTable(visitsTable, searchResult);
 
                 } catch (SQLException ex) {
                     Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
-                UIC.resetVisitPanel( updatePrice ,termineradio1 , notesTextAreaNV1 , notesTextAreaNV , teethpanel , babyTeethPanel , allTeethPanel , procedureLabel , resteLabel );
+                UIC.resetVisitPanel( updatePrice ,termineradio1 , notesTextAreaNV1 , notesTextAreaNV , teethpanel , babyTeethPanel , allTeethPanel , procedureLabel , resteLabel , visitTypeCards , defaultSect );
             
             } catch (SQLException ex) {
                 Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
+        destroyObjects() ;
+        
     }//GEN-LAST:event_updatebtnMouseClicked
 
     private void visitsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_visitsTableMouseClicked
         
-        UIC.resetVisitPanel( updatePrice ,termineradio1 , notesTextAreaNV1 , notesTextAreaNV , teethpanel , babyTeethPanel , allTeethPanel , procedureLabel , resteLabel   );
-        
+        //UIC.resetVisitPanel( updatePrice ,termineradio1 , notesTextAreaNV1 , notesTextAreaNV , teethpanel , babyTeethPanel , allTeethPanel , procedureLabel , resteLabel , visitTypeCards , defaultSect  );
+        //maybechangelater
         try {
+            
             UQM.updateCombo(modifyActConsCombo , dbc );
             
         } catch (SQLException ex) {
@@ -3936,24 +4070,15 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         DefaultTableModel model = (DefaultTableModel) visitsTable.getModel();
         int selectedRowIndex = visitsTable.getSelectedRow();
         
-        System.out.println("the search panell was created  : x " + searchPanel.getLocation().x  +" y "+ searchPanel.getLocation().y + searchPanel.isVisible());
-        if(model.getValueAt(selectedRowIndex, 6).toString().equals("1")){
-            visitTypeCards.removeAll();
-            visitTypeCards.add(doneSect);
-            visitTypeCards.repaint();
-            visitTypeCards.revalidate(); 
-        }else{
-            visitTypeCards.removeAll();
-            visitTypeCards.add(newSeanceSect);
-            visitTypeCards.repaint();
-            visitTypeCards.revalidate(); 
-        }
         
         
         if (evt.getClickCount() == 2) {
             
+            
             parentPanel.removeAll();
             parentPanel.add(detailedVisitPanel);
+            pagesStack.add(detailedVisitPanel);
+            
             parentPanel.repaint();
             parentPanel.revalidate();
 
@@ -3990,6 +4115,17 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                 Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
             
+            if (currCons.temine) {
+                visitTypeCards.removeAll();
+                visitTypeCards.add(doneSect);
+                visitTypeCards.repaint();
+                visitTypeCards.revalidate();
+            } else {
+                visitTypeCards.removeAll();
+                visitTypeCards.add(newSeanceSect);
+                visitTypeCards.repaint();
+                visitTypeCards.revalidate();
+            }
             
             try {
                 
@@ -3999,86 +4135,67 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                 Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            
-            
-            try {
-                
-                
-                UIC.resetTeethPanel(teethpanel , babyTeethPanel);
-                
-                String operation=model.getValueAt(selectedRowIndex, 2).toString();
-                currAct.cout = UQM.getOperationCostByName(dbc, operation) ;
-                model = (DefaultTableModel) visitsTable.getModel();
-                selectedRowIndex = visitsTable.getSelectedRow();
+                        try {
+
+                UIC.resetTeethPanel(teethpanel, babyTeethPanel);
+
+                String operation = model.getValueAt(selectedRowIndex, 2).toString();
+                currAct.cout = UQM.getOperationCostByName(dbc, operation);
                 //KBO
-                String payed = model.getValueAt(selectedRowIndex , 5 ).toString();
-                int rest = currCons.cost - (Integer.parseInt(payed)) ;
-                if(rest<0 || model.getValueAt(selectedRowIndex , 6 ).toString().equals("1")){
-                    rest = 0 ;
+                int rest = currCons.rest;
+                //change this ++
+                if (rest < 0) {
+                    rest = 0;
                 }
-                
-                String[] teethIndexes = model.getValueAt(selectedRowIndex, 3).toString().split(",");
-                
-                for(String tooth : teethIndexes){
-                    try{
-                        if(Integer.parseInt(tooth.trim())> 49){
-                        allTeethPanel.removeAll();
-                        allTeethPanel.add(babyTeethPanel);
-                        allTeethPanel.repaint();
-                        allTeethPanel.revalidate();
-                        }else{
-                        allTeethPanel.removeAll();
-                        allTeethPanel.add(teethpanel);
-                        allTeethPanel.repaint();
-                        allTeethPanel.revalidate(); 
+                if (currCons.teeth != null) {
+                    String[] teethIndexes = currCons.teeth.split(",");
+                    for (String tooth : teethIndexes) {
+                        try {
+                            if (Integer.parseInt(tooth.trim()) > 49) {
+                                allTeethPanel.removeAll();
+                                allTeethPanel.add(babyTeethPanel);
+                                allTeethPanel.repaint();
+                                allTeethPanel.revalidate();
+                            } else {
+                                allTeethPanel.removeAll();
+                                allTeethPanel.add(teethpanel);
+                                allTeethPanel.repaint();
+                                allTeethPanel.revalidate();
+                            }
+                        } catch (Exception e) {
+                            allTeethPanel.removeAll();
+                            allTeethPanel.add(teethpanel);
+                            allTeethPanel.repaint();
+                            allTeethPanel.revalidate();
                         }
-                    }catch(Exception e){
-                        allTeethPanel.removeAll();
-                        allTeethPanel.add(teethpanel);
-                        allTeethPanel.repaint();
-                        allTeethPanel.revalidate(); 
                     }
-                    
-                    
-                           
-                }
-                //tweli a for loop (multipe children effected !)
-                
-                Component[] components = teethpanel.getComponents();
-                Component[] otherComponents = babyTeethPanel.getComponents();
-                int totalSize = components.length + otherComponents.length;
-                Component[] allComponents = new Component[totalSize];
-                System.arraycopy(components, 0, allComponents, 0, components.length);
-                System.arraycopy(otherComponents, 0, allComponents, components.length, otherComponents.length);
 
-                for (int i = 0; i < teethIndexes.length; i++) {
-                    String toothIndex = teethIndexes[i].trim();
-                    for (Component component : allComponents) {
-                        
-                        System.out.println("component name :" + component.getName());
-                        if (component.getName() == null ? toothIndex == null : component.getName().equals(toothIndex)) {
-                            System.out.println("match");
-                            component.setVisible(true);
+                    Component[] components = teethpanel.getComponents();
+                    Component[] otherComponents = babyTeethPanel.getComponents();
+                    int totalSize = components.length + otherComponents.length;
+                    Component[] allComponents = new Component[totalSize];
+                    System.arraycopy(components, 0, allComponents, 0, components.length);
+                    System.arraycopy(otherComponents, 0, allComponents, components.length, otherComponents.length);
+
+                    System.out.println("going throug all teeth ");
+                    for (int i = 0; i < teethIndexes.length; i++) {
+                        String toothIndex = teethIndexes[i].trim();
+                        for (Component component : allComponents) {
+
+                            if (component.getName() == null ? toothIndex == null : component.getName().equals(toothIndex)) {
+                                System.out.println("match in : " + toothIndex);
+                                component.setVisible(true);
+                            }
                         }
                     }
                 }
-                /*
-                for (int i = 0; i < teethIndexes.length; i++) {
-                    String toothIndex = teethIndexes[i].trim();
-                    for (Component component : otherComponents) {
-
-                        System.out.println("component name :" + component.getName());
-                        if (component.getName() == null ? toothIndex == null : component.getName().equals(toothIndex)) {
-                            System.out.println("match");
-                            component.setVisible(true);
-                        }
-                    }
-                }*/
+                
+                
+                
                 resteLabel.setText(String.valueOf(rest));
                 procedureLabel.setText(operation);
             } catch (Exception ex) {
                 ex.printStackTrace();
-                System.err.println("select a client first");
             }
 
         }
@@ -4093,6 +4210,8 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
     private void visitsListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_visitsListMouseClicked
         parentPanel.removeAll();
         parentPanel.add(detailedVisitPanel);
+        pagesStack.add(detailedVisitPanel);
+        
         parentPanel.repaint();
         parentPanel.revalidate();
         
@@ -4114,10 +4233,10 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
     }//GEN-LAST:event_visitsListMouseClicked
 
     private void jLabel34MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel34MouseClicked
-        parentPanel.removeAll();
-        parentPanel.add(homePanel);
-        parentPanel.repaint();
-        parentPanel.revalidate();
+        
+        
+        goToPrevious();
+        
         
     }//GEN-LAST:event_jLabel34MouseClicked
         
@@ -4180,7 +4299,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         Point point = evt.getPoint(); // get the cursor position relative to the panel
         int x = point.x; // get the x coordinate of the cursor
         int y = point.y; 
-        System.out.println("coordinates : "+x +", "+y);
+        //System.out.println("coordinates : "+x +", "+y);
         if (x >= 33 && x <= 46 && y <= 134 && y >= 118) {
             toothLbl1.setVisible(!toothLbl1.isVisible());
         } else if (x >= 30 && x <= 46 && y <= 116 && y >= 99) {
@@ -4266,7 +4385,6 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
     }//GEN-LAST:event_termineComboActionPerformed
 
     private void searchTypeComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_searchTypeComboItemStateChanged
-        System.out.println(searchTypeCombo.getSelectedIndex());
         
         switch (searchTypeCombo.getSelectedIndex()) {
             case 0:
@@ -4274,7 +4392,6 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                 searchFieldPanel.add(nom_prenomSearch);
                 searchFieldPanel.repaint();
                 searchFieldPanel.revalidate();
-                System.out.println("painted nom prenom");
                 break;
             case 1:
                 searchFieldPanel.removeAll();
@@ -4288,7 +4405,6 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                 searchFieldPanel.add(priceSearch);
                 searchFieldPanel.repaint();
                 searchFieldPanel.revalidate();
-                System.out.println("painted admin search ");
                 break;         
             default:
                 break;
@@ -4403,10 +4519,9 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
     }//GEN-LAST:event_nomSearchFieldKeyReleased
 
     private void jLabel48MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel48MouseClicked
-        parentPanel.removeAll();
-        parentPanel.add(homePanel);
-        parentPanel.repaint();
-        parentPanel.revalidate();
+        
+        goToPrevious();
+        
     }//GEN-LAST:event_jLabel48MouseClicked
 
     private void jLabel50MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel50MouseClicked
@@ -4434,6 +4549,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         if (checkRights(admin.authorities, consultPatients)) {
             parentPanel.removeAll();
             parentPanel.add(patientsPanel);
+            pagesStack.add(patientsPanel);
             parentPanel.repaint();
             parentPanel.revalidate();
            
@@ -4516,7 +4632,6 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
             PopUp ppup = new PopUp("facture" , dbc  , null , admin);
             ppup.setLocationRelativeTo(this);
             ppup.setVisible(true);
-            System.out.println("the new client button is clicked ");
         } catch (SQLException ex) {
             Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -4529,7 +4644,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         Point point = evt.getPoint(); // get the cursor position relative to the panel
         int x = point.x; // get the x coordinate of the cursor
         int y = point.y; 
-        System.out.println("baby coordinates : "+x +", "+y);
+        //System.out.println("baby coordinates : "+x +", "+y);
         
         if (x >= 25 && x <= 50 && y >= 108 && y <= 132) {
             babytoothLbl1.setVisible(!babytoothLbl1.isVisible());
@@ -4611,7 +4726,6 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         } catch (SQLException ex) {
             Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("panel mouse Clicked");
     }//GEN-LAST:event_searchFieldPanelMouseClicked
 
     private void searchFieldPanelKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldPanelKeyPressed
@@ -4623,7 +4737,6 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         } catch (SQLException ex) {
             Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("panel clicked");
     }//GEN-LAST:event_searchFieldPanelKeyPressed
 
     private void warningLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_warningLabelMouseClicked
@@ -4634,6 +4747,8 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         if(evt.getClickCount() == 2){
             parentPanel.removeAll();
             parentPanel.add(patientsPanel);
+            pagesStack.add(patientsPanel);
+            
             parentPanel.repaint();
             parentPanel.revalidate();
             
@@ -4883,6 +4998,8 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         if (checkRights(admin.authorities, newClient1)) {
             parentPanel.removeAll();
             parentPanel.add(apercusPanel);
+            pagesStack.add(apercusPanel);
+            
             parentPanel.repaint();
             parentPanel.revalidate();
             
@@ -4894,7 +5011,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                 Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
             for(String row : searchResults){
-                System.out.println(row.toString());
+                System.out.println("dont know wtf is this "+row.toString());
             }
         }else{
             JOptionPane.showMessageDialog(null, "Accès refusé.\n Vous n'avez pas le droit d'utiliser cette fonctionnalité.",
@@ -4917,6 +5034,8 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         if (checkRights(admin.authorities, newOp1)) {
             parentPanel.removeAll();
             parentPanel.add(actsPanel);
+            pagesStack.add(actsPanel);
+            
             parentPanel.repaint();
             parentPanel.revalidate();
             
@@ -4950,6 +5069,8 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         if (checkRights(admin.authorities, newAdmin1)) {
             parentPanel.removeAll();
             parentPanel.add(adminsPanel);
+            pagesStack.add(adminsPanel);
+            
             parentPanel.repaint();
             parentPanel.revalidate();
             
@@ -4961,7 +5082,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                 Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
             for(String row : searchResults){
-                System.out.println(row.toString());
+                System.out.println("also don't know"+row.toString());
             }
             
             
@@ -5009,7 +5130,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
     }//GEN-LAST:event_jLabel51MouseClicked
 
     private void searchPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchPanelMouseClicked
-        System.out.println("panel exists");
+        
     }//GEN-LAST:event_searchPanelMouseClicked
 
     private void jLabel50MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel50MouseEntered
@@ -5028,10 +5149,8 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
     }//GEN-LAST:event_actsTableMouseClicked
 
     private void jLabel71MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel71MouseClicked
-        parentPanel.removeAll();
-        parentPanel.add(homePanel);
-        parentPanel.repaint();
-        parentPanel.revalidate();
+        
+        goToPrevious();
     }//GEN-LAST:event_jLabel71MouseClicked
 
     private void jLabel72MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel72MouseClicked
@@ -5124,6 +5243,8 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                 try {
                    
                     UQM.modifySeance(dbc, currCons.id, currSeance.id, seanceRemarque.getText(), (int) seanceMontant.getValue() , UQM.getOperationIdByName(dbc, (String) modifyActConsCombo.getSelectedItem()));
+                    DefaultTableModel d = (DefaultTableModel) visitsTable.getModel();
+                    d.setRowCount(0);
                 } catch (SQLException ex) {
                     Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -5153,6 +5274,8 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                 if (answer == JOptionPane.YES_OPTION) {
                     try {
                         UQM.deleteSeance(dbc, currCons.id, currSeance.id);
+                        DefaultTableModel d = (DefaultTableModel) visitsTable.getModel();
+                        d.setRowCount(0);
                     } catch (SQLException ex) {
                         Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -5185,6 +5308,8 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                 if (answer == JOptionPane.YES_OPTION) {
                     try {
                         UQM.deleteConsultation(dbc, currCons.id);
+                        DefaultTableModel d = (DefaultTableModel) visitsTable.getModel();
+                        d.setRowCount(0);
                     } catch (SQLException ex) {
                         Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -5236,6 +5361,8 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
 
                     UQM.modifyConsultation(dbc, currCons.id, curClient.id, teethArray, selectedValue , coutFinalSpinner.getValue().toString());
                     curClient = new Client();
+                    DefaultTableModel d = (DefaultTableModel) visitsTable.getModel();
+                    d.setRowCount(0);
                 } catch (SQLException ex) {
                     Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -5260,7 +5387,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         if(evt.getClickCount() == 2){
             try {
 
-                UQM.modifyConsultation(dbc, currCons.id , currCons.client_id , null , 0, coutFinalSpinner.getValue().toString());
+                UQM.modifyConsultation(dbc, currCons , 0);
                 
             } catch (SQLException ex) {
                 Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -5278,7 +5405,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
             String[] searchResult = new String[6];
 
             try {
-                searchResult = UQM.getVisitsResults(dbc, model.getValueAt(selectedRowIndex, 0).toString(), 2);
+                searchResult = UQM.getVisitsResults(dbc, model.getValueAt(selectedRowIndex, 0).toString(), 1);
                 UIC.paintVistsTable(visitsTable, searchResult);
 
             } catch (SQLException ex) {
@@ -5290,10 +5417,9 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
     }//GEN-LAST:event_doneSectMouseClicked
 
     private void jLabel76MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel76MouseClicked
-        parentPanel.removeAll();
-        parentPanel.add(homePanel);
-        parentPanel.repaint();
-        parentPanel.revalidate();
+        
+        goToPrevious();
+        
     }//GEN-LAST:event_jLabel76MouseClicked
 
     private void jLabel77MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel77MouseClicked
@@ -5398,17 +5524,15 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
     }//GEN-LAST:event_modifyClientTextFieldKeyReleased
 
     private void suggestionListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_suggestionListMouseClicked
-        System.out.println("1");
+        
         String[] secondSplit = suggestionList.getSelectedValue().split("---");
-        System.out.println(Arrays.toString(secondSplit));
-        System.out.println("2");
+        
         try {
             curClient = UQM.currentClient(dbc, Integer.parseInt(secondSplit[0]));
         } catch (SQLException ex) {
             Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        System.out.println("3");
         
         if(curClient!=null){
             modifyClientTextField.setText(curClient.nom +" "+curClient.prenom);
@@ -5426,10 +5550,8 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
 
     private void jLabel80MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel80MouseClicked
         
-        parentPanel.removeAll();
-        parentPanel.add(homePanel);
-        parentPanel.repaint();
-        parentPanel.revalidate();
+        
+        goToPrevious();
         
     }//GEN-LAST:event_jLabel80MouseClicked
 
@@ -5532,6 +5654,8 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         
         parentPanel.removeAll();
             parentPanel.add(detailedVisitPanel);
+            pagesStack.add(detailedVisitPanel);
+            
             parentPanel.repaint();
             parentPanel.revalidate();
 
@@ -5558,6 +5682,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
     private void newAdmin2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newAdmin2MouseClicked
         parentPanel.removeAll();
         parentPanel.add(facturesPanel);
+        pagesStack.add(facturesPanel);
         parentPanel.repaint();
         parentPanel.revalidate();
 
@@ -5590,10 +5715,8 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
     }//GEN-LAST:event_facturesTableMouseClicked
 
     private void jLabel99MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel99MouseClicked
-        parentPanel.removeAll();
-        parentPanel.add(homePanel);
-        parentPanel.repaint();
-        parentPanel.revalidate();
+        
+        goToPrevious();
         
     }//GEN-LAST:event_jLabel99MouseClicked
 
@@ -5697,6 +5820,8 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         int selectedRowIndex = visitsTable.getSelectedRow();
         parentPanel.removeAll();
         parentPanel.add(detailedVisitPanel);
+        pagesStack.add(detailedVisitPanel);
+        
         parentPanel.repaint();
         parentPanel.revalidate();
 
@@ -5721,6 +5846,8 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         int selectedRowIndex = visitsTable.getSelectedRow();
         parentPanel.removeAll();
         parentPanel.add(detailedVisitPanel);
+        pagesStack.add(detailedVisitPanel);
+        
         parentPanel.repaint();
         parentPanel.revalidate();
 
@@ -5758,7 +5885,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
                         UQM.deleteConsultation(dbc, Integer.parseInt((String) visitsTable.getModel().getValueAt(visitsTable.getSelectedRow(), 0)));
                         String[] searchResult = new String[8];
 
-                        searchResult = UQM.getVisitsResults(dbc, usersTable.getModel().getValueAt(usersTable.getSelectedRow(), 0).toString(), 2);
+                        searchResult = UQM.getVisitsResults(dbc, usersTable.getModel().getValueAt(usersTable.getSelectedRow(), 0).toString(), 1);
                         UIC.paintVistsTable(visitsTable, searchResult);
 
                     } catch (SQLException ex) {
@@ -5776,30 +5903,36 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         try {
             
             boolean success = UQM.backupData();
+            if(!success){
+                new IOException() ;
+            }
             
             SwingUtilities.invokeLater(() -> {
-
                 backupText.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/loading_small.gif")));
-                backupText.setText("   Loading...");
+                
+                backupText.setBackground(new Color(255, 255 , 255));
 
                 Timer timer = new Timer(3000, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (success) {
                             ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/images/correct-database.png"));
+                            backupText.setBackground(new Color(247,247,247));
                             backupText.setIcon(icon);
-                            backupText.setText("backup succeeded");
+                            backupText.setText("");
 
                         } else {
                             ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/images/delete-database.png"));
+                            backupText.setBackground(new Color(247,247,247));
                             backupText.setIcon(icon);
-                            backupText.setText("backup failed");
+                            backupText.setText("");
                             Timer restore_icon = new Timer(20000, new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
+                                    backupText.setBackground(new Color(247,247,247));
                                     ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/images/data-backup.png"));
                                     backupText.setIcon(icon);
-                                    backupText.setText("back-up data");
+                                    backupText.setText("");
 
                                 }
 
@@ -5825,6 +5958,86 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
         }
         
     }//GEN-LAST:event_backupTextMouseClicked
+
+    private void defaultSectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_defaultSectMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_defaultSectMouseClicked
+
+    private void jPanel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel15MouseClicked
+        if(curClient == null || curClient.id == 0 ){
+            UQM.sqlAlert(1, "selectioner un client svp ", 2);
+            System.out.println("current client is null ");
+        } else {
+            visitsTable.clearSelection();
+            visitTypeCards.removeAll();
+            visitTypeCards.add(newVisitSect);
+            visitTypeCards.repaint();
+            visitTypeCards.revalidate();
+        }
+    }//GEN-LAST:event_jPanel15MouseClicked
+
+    private void jPanel17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel17MouseClicked
+        
+        JPanel panel = new JPanel() ;
+        
+        if(curClient == null|| curClient.id == 0){
+            UQM.sqlAlert(1, "selectioner un client svp ", 2);
+        } else {
+            
+            int lastConstId = Integer.parseInt((String) visitsTable.getModel().getValueAt(0, 0)) ;
+            visitsTable.setRowSelectionInterval(0, 0);
+            
+             try {
+                currCons = UQM.currentConsultation(dbc, lastConstId);
+
+            } catch (SQLException ex) {
+                Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if(currCons.temine){
+                panel = doneSect ;
+            }else{
+                panel = newSeanceSect ;
+            }
+            
+            visitTypeCards.removeAll();
+            visitTypeCards.add(panel);
+            visitTypeCards.repaint();
+            visitTypeCards.revalidate();
+            
+            
+            
+        }
+    }//GEN-LAST:event_jPanel17MouseClicked
+
+    private void jLabel113MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel113MouseClicked
+        visitTypeCards.removeAll();
+        visitTypeCards.add(defaultSect);
+        visitTypeCards.repaint();
+        visitTypeCards.revalidate(); 
+    }//GEN-LAST:event_jLabel113MouseClicked
+
+    private void jLabel114MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel114MouseClicked
+        visitTypeCards.removeAll();
+        visitTypeCards.add(defaultSect);
+        visitTypeCards.repaint();
+        visitTypeCards.revalidate(); 
+    }//GEN-LAST:event_jLabel114MouseClicked
+
+    private void jPanel15MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel15MouseEntered
+        jLabel108.setForeground(new Color(141, 161, 196));
+    }//GEN-LAST:event_jPanel15MouseEntered
+
+    private void jPanel17MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel17MouseEntered
+        jLabel109.setForeground(new Color(141, 161, 196));
+    }//GEN-LAST:event_jPanel17MouseEntered
+
+    private void jPanel15MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel15MouseExited
+        jLabel108.setForeground(new Color(255, 255, 255));
+    }//GEN-LAST:event_jPanel15MouseExited
+
+    private void jPanel17MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel17MouseExited
+        jLabel109.setForeground(new Color(255, 255, 255));
+    }//GEN-LAST:event_jPanel17MouseExited
     
     private void connectToDataBase() {
         
@@ -5833,8 +6046,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
             CON = DriverManager.getConnection("jdbc:mysql://localhost:3306/clinicdatabase" ,"aymen" , "aymenhhh");
         } catch ( SQLException e)
             {
-                System.out.println("mainFrame couldnt connect !");
-                System.out.println(e.getMessage());
+                e.getStackTrace() ;
             }
     }
     /**
@@ -5928,6 +6140,7 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
     private javax.swing.JSpinner coutFinalSpinner;
     private javax.swing.JPanel dateFieldPanel;
     private javax.swing.JPanel dateSearch;
+    private javax.swing.JPanel defaultSect;
     private javax.swing.JLabel depenseMois;
     private javax.swing.JPanel detailedVisitPanel;
     private javax.swing.JDialog dialogBox;
@@ -5949,10 +6162,12 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
     private javax.swing.JLabel jLabel102;
     private javax.swing.JLabel jLabel103;
     private javax.swing.JLabel jLabel104;
-    private javax.swing.JLabel jLabel105;
     private javax.swing.JLabel jLabel106;
-    private javax.swing.JLabel jLabel107;
+    private javax.swing.JLabel jLabel108;
+    private javax.swing.JLabel jLabel109;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel113;
+    private javax.swing.JLabel jLabel114;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -6053,10 +6268,10 @@ public class mainFrame extends javax.swing.JFrame implements PopupListener{
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -6297,45 +6512,91 @@ public static int[] getVisibleComponentIndexes(Container container) {
     
     }
 
-public class CustomCellRenderer extends DefaultTableCellRenderer {
-  @Override
-  public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-    
-    Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-   
-    
-    if(column == 6 ){
-        
-        Object tm = table.getModel().getValueAt(row, column);
-        if (tm != null) {
-            //because when the first table is initialized the values are null and it raises exception
-            
-             String termine = tm.toString();
-             int termine_int = Integer.parseInt(termine);
-            Color color = null ;
-             if (termine_int == 1) {
-                 color =  new Color(52, 235, 94);
-            } else {
-            color = new Color(251, 255, 125);
-            }
-             
-            cellComponent.setBackground(color);
-        } 
-        
-    }else {
-        
-        cellComponent.setBackground(Color.WHITE);
-        if (isSelected) {
-            cellComponent.setBackground(new Color(184, 207, 229));
-         } else {
-            cellComponent.setBackground(table.getBackground());
+    private void goToPrevious() {
+        for(JPanel panel:pagesStack){
+            System.err.println(panel.getName());
+            System.err.println("----------------");
         }
+        pagesStack.pop();
+        if (!pagesStack.isEmpty()) {
+
+            parentPanel.removeAll();
+            pagesStack.add(pagesStack.peek());
+            parentPanel.add(pagesStack.pop());
+
+            parentPanel.repaint();
+            parentPanel.revalidate();
+
+        } else {
+            parentPanel.removeAll();
+            parentPanel.add(homePanel);
+            parentPanel.repaint();
+            parentPanel.revalidate();
+        }
+
     }
-    // when it's selected 
-    
-    
-    return cellComponent;
-  }
+
+    private void destroyObjects() {
+        currCons = new Consultation() ;
+        curClient = new Client() ;
+    }
+
+    public class CustomCellRenderer extends DefaultTableCellRenderer {
+
+        Object lastId = null;
+        Color aColor = new Color(140, 120, 240);
+        Color diffColor = new Color(30, 55, 240);
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+
+            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            Object currentId = table.getValueAt(row, 0);
+            Object tm = table.getModel().getValueAt(row, column);
+            String cellContent = null ;
+            if(tm != null){
+                cellContent = tm.toString().strip();
+            }
+            
+            if (column == 7) {
+                
+                Color color;
+
+                try{
+                    int termine_int = Integer.parseInt(cellContent);
+                    if (termine_int == 0) {
+                        color = new Color(52, 235, 94);
+                    } else if (termine_int > 0) {
+                        color = new Color(251, 255, 125);
+                    } else {
+                        color = new Color(252, 186, 71);
+                    }
+
+                    c.setBackground(color);
+                }catch(NumberFormatException e){
+                     c.setBackground(new Color(222, 222, 222));
+                }
+                    
+                
+            } else {
+                // Default rendering for other columns
+                
+                if(cellContent != null && cellContent.contains("---")){
+                    table.setRowHeight(row, 8);
+                    c.setBackground(new Color(222, 222, 222));
+                }else{
+                    if(isSelected){
+                        c.setBackground(new Color(179, 236, 255));
+                    }else{
+                        c.setBackground(table.getBackground()); 
+                    }
+                }
+                
+                
+            }
+
+            return c;
+        }
 }
 
 public class adminsTableRenderer extends DefaultTableCellRenderer {
